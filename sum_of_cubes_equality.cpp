@@ -1,5 +1,5 @@
-/* Find all possible combinations satisfying equation a^3 + b^3 = c^3 + d^3
-	within a given range of natural numbers where a, b, c and d are unique.*/
+/* Print all possible integer solutions to the equation a^3 + b^3 = c^3 + d^3
+		where a, b, c and d are integers between 1 and 100.*/
 
 #include "sum_of_cubes_equality.h"
 
