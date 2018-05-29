@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// Usage: <executable> start end
 int main(int argc, char **argv)
 {
 	unsigned int start, end, range, count, a, b, c, d;
@@ -29,6 +30,7 @@ int main(int argc, char **argv)
 	if (!lPairs)
 		cerr << "Memory allocation failed" << endl;
 	
+	// Populate all possible combinations of Pair objects.
 	for (a = start; a <= end; a++)
 	{
 		for (b = a + 1; b <= end; b++)
@@ -40,6 +42,7 @@ int main(int argc, char **argv)
 	}
 	
 	cout << "a\tb\tc\td" <<endl;
+	// For each Pair object, construct unique combinations including value[2].
 	for (int i = 0; i < count; i++)
 	{	
 		Pair current = lPairs[i];
@@ -47,11 +50,13 @@ int main(int argc, char **argv)
 		{
 			if (!(c == current.value[0] || c == current.value[1]))
 			{
+				// Find expected value of cube of value[3].
 				expected = pow(current.value[0], 3) + pow(current.value[1], 3) -
 					pow(c, 3);
 					
 				if (expected > 0)
 				{
+					// Check if there is a natural no. for cube root of expected.
 					tmpd = cbrt(expected);
 					d = (unsigned int)tmpd;
 					/* debug only
