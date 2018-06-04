@@ -6,8 +6,8 @@ location of each permutation. */
 
 using namespace std;
 
-void construct_frequency_map(string window_str, Frequency *freq_map,
-	unsigned int keys_count)
+void construct_frequency_map(std::string window_str, Frequency *freq_map,
+	unsigned int *keys_count)
 {
 	if (freq_map == NULL)
 	{
@@ -17,8 +17,9 @@ void construct_frequency_map(string window_str, Frequency *freq_map,
 	for (size_t i = 0; i < window_str.size(); i++)
 	{
 		bool match_found = false;
+		unsigned int curr_keys_count = *keys_count;
 		
-		for (size_t j = 0; j < keys_count; j++)
+		for (size_t j = 0; j < curr_keys_count; j++)
 		{
 			if (window_str[i] == freq_map[j].key)
 			{
@@ -28,11 +29,11 @@ void construct_frequency_map(string window_str, Frequency *freq_map,
 			}
 		}
 		
-		if (match_found)
+		if (match_found == false)
 		{
-			freq_map[keys_count].key = window_str[i];
-			freq_map[keys_count].value++;
-			keys_count++;
+			freq_map[curr_keys_count].key = window_str[i];
+			freq_map[curr_keys_count].value++;
+			(*keys_count)++;
 		}
 	}
 }
@@ -82,15 +83,16 @@ char find_char_with_min_freq(Frequency *freq_map, unsigned int keys_count)
 }
 
 void check_for_valid_permutation(unsigned int window_middle_pos,
-	string window_of_substrs, Frequency *s_freq_map, unsigned int s_length)
+	std::string window_of_substrs, Frequency *s_freq_map, unsigned int s_length,
+	unsigned int s_keys_count)
 {
 	for (size_t i = 0; i < window_of_substrs.size(); i+=s_length)
 	{
-		unsigned curr_keys_count;		
+		unsigned int curr_keys_count;		
 		Frequency *curr_freq_map = NULL;
 		
-		curr_freq_map = calloc(s_length, sizeof(Frequency));
-		string curr_substr = window_of_substrs.substr(i, s_length);
+		curr_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
+		std::string curr_substr = window_of_substrs.substr(i, s_length);
 		construct_frequency_map(curr_substr, curr_freq_map, &curr_keys_count);
 		
 		if (check_if_equal(curr_freq_map, curr_keys_count, s_freq_map,
@@ -110,14 +112,43 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 	}
 }
 
+bool check_if_equal(Frequency *first_str, unsigned int first_keys_count,
+	Frequency *second_str, unsigned int second_keys_count)
+{
+	bool is_equal = false;
+	
+	if (first_keys_count == second_keys_count)
+	{
+		bool key_matches = true;
+		for (size_t i = 0; i < first_keys_count && key_matches == true; i++)
+		{
+			key_matches = false;
+			Frequency curr_first_freq = first_str[i];
+			for (size_t j = 0; j < first_keys_count; j++)
+			{
+				if (curr_first_freq.key == second_str[j].key &&
+					curr_first_freq.value == second_str[j].value)
+				{
+					key_matches = true;
+					break;
+				}
+			}
+		}
+		
+		is_equal = key_matches;
+	}
+	
+	return is_equal;
+}
+
 // Usage: <executable> smaller_string bigger_string
 int main(int argc, char **argv)
 {
-	string smaller, bigger, window_of_substrs;
+	std::string smaller, bigger, window_of_substrs;
 	unsigned int s_length, s_keys_count, b_length, b_keys_count, b_pos;
 	bool exists;
 	char s_min_freq_char;
-	string::iterator it;
+	std::string::iterator it;
 	Frequency *s_freq_map = NULL;	
 	Frequency *b_freq_map = NULL;	
 	
@@ -132,10 +163,10 @@ int main(int argc, char **argv)
 	if (s_length > b_length)
 		cerr << "Invalid length of smaller string" << endl;
 		
-	s_freq_map = calloc(s_length, sizeof(Frequency));
+	s_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
 	s_keys_count = 0;
 	construct_frequency_map(smaller, s_freq_map, &s_keys_count);
-	s_freq_map = calloc(s_length, sizeof(Frequency));
+	s_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
 	b_keys_count = 0;
 	construct_frequency_map(bigger, b_freq_map, &b_keys_count);
 	
@@ -157,8 +188,8 @@ int main(int argc, char **argv)
 		{			
 			window_of_substrs = bigger.substr(b_pos - s_length + 1,
 				s_length * 2 - 1);
-			check_for_valid_permutation(window_middle_pos, window_of_substrs,
-				s_freq_map,	s_length, s_keys_count);			
+			check_for_valid_permutation(b_pos, window_of_substrs, s_freq_map,
+				s_length, s_keys_count);			
 			b_pos += s_length;
 		}
 		else

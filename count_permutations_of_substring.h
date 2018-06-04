@@ -18,10 +18,10 @@ typedef struct
 /* 
 Input	:	String to parse
 Output1	:	Pointer to an array of Frequency objects
-Output2 :	Count of unique keys
+Output2 :	Pointer to count of unique keys
 Returns	:	None
  */
-void construct_frequency_map(string, Frequency *, unsigned int);
+void construct_frequency_map(std::string, Frequency *, unsigned int *);
 
 /* 
 Input1	:	Pointer to an array of Frequency objects for smaller string
@@ -48,7 +48,16 @@ Input4	:	Length of substring for which permutation is to be found
 Input5	:	Count of unique keys for substring
 Returns	:	None
  */
-void check_for_valid_permutation(string, Frequency *, unsigned int,
+void check_for_valid_permutation(unsigned int, std::string, Frequency *, 
 	unsigned int);
+	
+/* 
+Input1	:	Pointer to an array of Frequency objects for first string
+Input2	:	Count of unique keys for first string
+Input3	:	Pointer to an array of Frequency objects for second string
+Input4	:	Count of unique keys for second string
+Returns	:	Boolean result
+ */
+bool check_if_equal(Frequency *, unsigned int, Frequency *, unsigned int);
 
 #endif                                                                        
