@@ -9,6 +9,16 @@ location of each permutation. */
 #include <string>
 #include <limits>
 
+typedef enum
+{
+	ERR_INVALID_NUMBER_OF_ARGUMENTS = -5,
+	ERR_INVALID_LENGTH_OF_SMALLER_STRING,
+	ERR_NULL_POINTER,
+	ERR_INSUFFICIENT_NUMBER_OF_KEYS_IN_BIGGER_STRING,
+	ERR_SMALLER_STRING_CANNOT_EXIST_IN_BIGGER_STRING,
+	SUCCESS = 0
+} ExitCode;
+
 typedef struct
 {
 	char key;

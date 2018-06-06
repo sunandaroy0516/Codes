@@ -152,32 +152,44 @@ int main(int argc, char **argv)
 	Frequency *s_freq_map = NULL;	
 	Frequency *b_freq_map = NULL;	
 	
-	// check for cerr exit flow 
 	if (argc < 3)
+	{
 		cerr << "Invalid number of arguments" << endl;
+		return ERR_INVALID_NUMBER_OF_ARGUMENTS;
+	}
 	
 	smaller = argv[1];
 	s_length = smaller.length();	
 	bigger = argv[2];
 	b_length = bigger.length();
+	
 	if (s_length > b_length)
+	{
 		cerr << "Invalid length of smaller string" << endl;
+		return ERR_INVALID_LENGTH_OF_SMALLER_STRING;
+	}
 		
 	s_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
 	s_keys_count = 0;
 	construct_frequency_map(smaller, s_freq_map, &s_keys_count);
-	s_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
+	b_freq_map = (Frequency *)calloc(b_length, sizeof(Frequency));
 	b_keys_count = 0;
 	construct_frequency_map(bigger, b_freq_map, &b_keys_count);
 	
 	if (s_keys_count > b_keys_count)
-		cerr << "Insufficient number of unique characters in bigger_string";
+	{
+		cerr << "Insufficient number of unique characters in bigger string";
+		return ERR_INSUFFICIENT_NUMBER_OF_KEYS_IN_BIGGER_STRING;
+	}
 	
 	exists = check_if_smaller_can_exist_in_bigger(s_freq_map, s_keys_count,
 		b_freq_map, b_keys_count);
 	
 	if (!exists)
+	{
 		cerr << "Smaller string cannot exist in bigger string" << endl;
+		return ERR_SMALLER_STRING_CANNOT_EXIST_IN_BIGGER_STRING;
+	}
 
 	s_min_freq_char = find_char_with_min_freq(s_freq_map, s_keys_count);
 	
