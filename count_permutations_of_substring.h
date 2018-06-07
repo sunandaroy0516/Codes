@@ -70,4 +70,14 @@ Returns	:	Boolean result
  */
 bool check_if_equal(Frequency *, unsigned int, Frequency *, unsigned int);
 
+/* 
+Input1	:	Position in bigger string
+Input2	:	Length of substring to extract
+Output1	:	Start position of substring in bigger string
+Output2 :	End position of substring in bigger string
+Returns	:	None
+ */
+void calculate_offsets(unsigned int, unsigned int, unsigned int *,
+	unsigned int *);
+
 #endif                                                                        

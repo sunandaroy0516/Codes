@@ -12,13 +12,14 @@ void construct_frequency_map(std::string window_str, Frequency *freq_map,
 	if (freq_map == NULL)
 	{
 		cerr << "Pointer to freq_map is NULL" << endl;
+		return;
 	}
 	
 	for (size_t i = 0; i < window_str.size(); i++)
 	{
 		bool match_found = false;
 		unsigned int curr_keys_count = *keys_count;
-		
+
 		for (size_t j = 0; j < curr_keys_count; j++)
 		{
 			if (window_str[i] == freq_map[j].key)
@@ -32,7 +33,7 @@ void construct_frequency_map(std::string window_str, Frequency *freq_map,
 		if (match_found == false)
 		{
 			freq_map[curr_keys_count].key = window_str[i];
-			freq_map[curr_keys_count].value++;
+			(freq_map[curr_keys_count].value)++;
 			(*keys_count)++;
 		}
 	}
@@ -41,18 +42,28 @@ void construct_frequency_map(std::string window_str, Frequency *freq_map,
 bool check_if_smaller_can_exist_in_bigger(Frequency *s_freq_map, unsigned int
 	s_keys_count, Frequency *b_freq_map, unsigned int b_keys_count)
 {
+	if (s_freq_map == NULL || b_freq_map == NULL)
+	{
+		cerr << "Pointer to freq_map is NULL" << endl;
+		return false;
+	}
+	
 	bool match_found = false;
-	for (size_t i = 0; i < s_keys_count && match_found == true; i++)
+
+	for (size_t i = 0; i < s_keys_count; i++)
 	{		
 		for (size_t j = 0; j < b_keys_count; j++)
 		{
 			if (s_freq_map[i].key == b_freq_map[j].key && s_freq_map[i].value
-				== b_freq_map[j].value)
+				<= b_freq_map[j].value)
 			{
 				match_found = true;
 				break;
 			}
 		}
+		
+		if (match_found == false)
+			break;
 	}
 	
 	return match_found;
@@ -76,6 +87,7 @@ char find_char_with_min_freq(Frequency *freq_map, unsigned int keys_count)
 		if (freq_map[i].value == min_freq)
 		{
 			key_with_min_freq = freq_map[i].key;
+			break;
 		}
 	}
 
@@ -88,13 +100,13 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 {
 	for (size_t i = 0; i < window_of_substrs.size(); i+=s_length)
 	{
-		unsigned int curr_keys_count;		
+		unsigned int curr_keys_count = 0;		
 		Frequency *curr_freq_map = NULL;
 		
 		curr_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
 		std::string curr_substr = window_of_substrs.substr(i, s_length);
 		construct_frequency_map(curr_substr, curr_freq_map, &curr_keys_count);
-		
+
 		if (check_if_equal(curr_freq_map, curr_keys_count, s_freq_map,
 			s_keys_count) == true)
 		{
@@ -112,22 +124,24 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 	}
 }
 
-bool check_if_equal(Frequency *first_str, unsigned int first_keys_count,
-	Frequency *second_str, unsigned int second_keys_count)
+bool check_if_equal(Frequency *first_freq_map, unsigned int first_keys_count,
+	Frequency *second_freq_map, unsigned int second_keys_count)
 {
 	bool is_equal = false;
 	
 	if (first_keys_count == second_keys_count)
 	{
 		bool key_matches = true;
+
 		for (size_t i = 0; i < first_keys_count && key_matches == true; i++)
 		{
 			key_matches = false;
-			Frequency curr_first_freq = first_str[i];
+			Frequency curr_first_freq = first_freq_map[i];
+
 			for (size_t j = 0; j < first_keys_count; j++)
 			{
-				if (curr_first_freq.key == second_str[j].key &&
-					curr_first_freq.value == second_str[j].value)
+				if (curr_first_freq.key == second_freq_map[j].key &&
+					curr_first_freq.value == second_freq_map[j].value)
 				{
 					key_matches = true;
 					break;
@@ -141,11 +155,27 @@ bool check_if_equal(Frequency *first_str, unsigned int first_keys_count,
 	return is_equal;
 }
 
+void calculate_offsets(unsigned int bigger_str_pos, unsigned int substr_len,
+	unsigned int *start, unsigned int *end)
+{
+	if (bigger_str_pos < substr_len)
+	{
+		*start = 0;
+	}
+	else
+	{
+		*start = bigger_str_pos - substr_len + 1;
+	}
+	
+	*end = bigger_str_pos + substr_len; 
+}
+
 // Usage: <executable> smaller_string bigger_string
 int main(int argc, char **argv)
 {
 	std::string smaller, bigger, window_of_substrs;
 	unsigned int s_length, s_keys_count, b_length, b_keys_count, b_pos;
+	size_t start, end;
 	bool exists;
 	char s_min_freq_char;
 	std::string::iterator it;
@@ -192,14 +222,14 @@ int main(int argc, char **argv)
 	}
 
 	s_min_freq_char = find_char_with_min_freq(s_freq_map, s_keys_count);
-	
+
 	b_pos = 0;
 	while (b_pos < b_length)
 	{
 		if (bigger[b_pos] == s_min_freq_char)
-		{			
-			window_of_substrs = bigger.substr(b_pos - s_length + 1,
-				s_length * 2 - 1);
+		{	
+			calculate_offsets(b_pos, s_length, &start, &end);
+			window_of_substrs = bigger.substr(start, end);
 			check_for_valid_permutation(b_pos, window_of_substrs, s_freq_map,
 				s_length, s_keys_count);			
 			b_pos += s_length;
