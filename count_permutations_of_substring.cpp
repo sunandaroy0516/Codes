@@ -95,14 +95,13 @@ char find_char_with_min_freq(Frequency *freq_map, unsigned int keys_count)
 }
 
 void check_for_valid_permutation(unsigned int window_middle_pos,
-	std::string window_of_substrs, Frequency *s_freq_map, unsigned int s_length,
-	unsigned int s_keys_count)
+	std::string window_of_substrs, Frequency *s_freq_map,
+	unsigned int s_length, unsigned int s_keys_count)
 {
-	for (size_t i = 0; i < window_of_substrs.size(); i+=s_length)
+	for (size_t i = 0; i < s_length; i++)
 	{
 		unsigned int curr_keys_count = 0;		
-		Frequency *curr_freq_map = NULL;
-		
+		Frequency *curr_freq_map = NULL;		
 		curr_freq_map = (Frequency *)calloc(s_length, sizeof(Frequency));
 		std::string curr_substr = window_of_substrs.substr(i, s_length);
 		construct_frequency_map(curr_substr, curr_freq_map, &curr_keys_count);
@@ -110,14 +109,10 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 		if (check_if_equal(curr_freq_map, curr_keys_count, s_freq_map,
 			s_keys_count) == true)
 		{
-			if (i > (window_of_substrs.size() / 2))
-			{
-				cout << window_middle_pos + i << endl;
-			}
+			/* if (window_middle_pos > s_length)
+				cout << window_middle_pos - s_length + i + 1 << endl;
 			else
-			{
-				cout << window_middle_pos - i << endl;
-			}
+				cout << i << endl; */
 		}		
 		
 		free(curr_freq_map);
@@ -155,9 +150,12 @@ bool check_if_equal(Frequency *first_freq_map, unsigned int first_keys_count,
 	return is_equal;
 }
 
-void calculate_offsets(unsigned int bigger_str_pos, unsigned int substr_len,
-	unsigned int *start, unsigned int *end)
+void calculate_offsets(unsigned int bigger_str_pos,
+	unsigned int bigger_str_len, unsigned int substr_len,
+	unsigned int *start, unsigned int *length)
 {
+	unsigned int end;
+	
 	if (bigger_str_pos < substr_len)
 	{
 		*start = 0;
@@ -167,7 +165,16 @@ void calculate_offsets(unsigned int bigger_str_pos, unsigned int substr_len,
 		*start = bigger_str_pos - substr_len + 1;
 	}
 	
-	*end = bigger_str_pos + substr_len; 
+	if (bigger_str_pos > (bigger_str_len - substr_len))
+	{
+		end = bigger_str_len;
+	}
+	else
+	{
+		end = bigger_str_pos + substr_len;
+	}
+	
+	*length = end - *start;
 }
 
 // Usage: <executable> smaller_string bigger_string
@@ -175,7 +182,7 @@ int main(int argc, char **argv)
 {
 	std::string smaller, bigger, window_of_substrs;
 	unsigned int s_length, s_keys_count, b_length, b_keys_count, b_pos;
-	size_t start, end;
+	size_t window_start, window_length;
 	bool exists;
 	char s_min_freq_char;
 	std::string::iterator it;
@@ -228,16 +235,14 @@ int main(int argc, char **argv)
 	{
 		if (bigger[b_pos] == s_min_freq_char)
 		{	
-			calculate_offsets(b_pos, s_length, &start, &end);
-			window_of_substrs = bigger.substr(start, end);
+			calculate_offsets(b_pos, b_length, s_length, &window_start,
+				&window_length);
+			window_of_substrs = bigger.substr(window_start,	window_length);
+			cout<<b_pos<<","<<window_of_substrs<<","<<window_start<<","<<window_length<<endl;
 			check_for_valid_permutation(b_pos, window_of_substrs, s_freq_map,
 				s_length, s_keys_count);			
-			b_pos += s_length;
 		}
-		else
-		{
-			b_pos++;
-		}
+		b_pos++;
 	}
 	
 	free(s_freq_map);
