@@ -98,7 +98,7 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 	std::string window_of_substrs, Frequency *s_freq_map,
 	unsigned int s_length, unsigned int s_keys_count)
 {
-	for (size_t i = 0; i < s_length; i++)
+	for (size_t i = 0; i < window_of_substrs.size(); i++)
 	{
 		unsigned int curr_keys_count = 0;		
 		Frequency *curr_freq_map = NULL;		
@@ -109,10 +109,10 @@ void check_for_valid_permutation(unsigned int window_middle_pos,
 		if (check_if_equal(curr_freq_map, curr_keys_count, s_freq_map,
 			s_keys_count) == true)
 		{
-			/* if (window_middle_pos > s_length)
+			if (window_middle_pos > s_length)
 				cout << window_middle_pos - s_length + i + 1 << endl;
 			else
-				cout << i << endl; */
+				cout << i << endl;
 		}		
 		
 		free(curr_freq_map);
@@ -237,8 +237,7 @@ int main(int argc, char **argv)
 		{	
 			calculate_offsets(b_pos, b_length, s_length, &window_start,
 				&window_length);
-			window_of_substrs = bigger.substr(window_start,	window_length);
-			cout<<b_pos<<","<<window_of_substrs<<","<<window_start<<","<<window_length<<endl;
+			window_of_substrs = bigger.substr(window_start,	window_length);			
 			check_for_valid_permutation(b_pos, window_of_substrs, s_freq_map,
 				s_length, s_keys_count);			
 		}
