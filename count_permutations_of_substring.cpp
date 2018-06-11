@@ -297,5 +297,5 @@ int main(int argc, char **argv)
 	if (b_freq_map != NULL)
 		free(b_freq_map);
 
-	return 0;
+	return SUCCESS;
 }
