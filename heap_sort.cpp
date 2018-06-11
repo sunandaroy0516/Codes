@@ -8,6 +8,8 @@
 
 #include "heap_sort.h"
 
+using namespace std;
+
 /*
 MAX-HEAPIFY(A, i)
 l <- LEFT(i)
@@ -24,16 +26,17 @@ if largest != i
 	then exchange A[i] <-> A[largest]
 		MAX-HEAPIFY(A, largest)
 */
-size_t max_heapify(heap_node *input_array, unsigned int count, size_t position)
+/* size_t max_heapify(heap_node *input_heap, unsigned int heap_size,
+	size_t heap_index)
 {
-	if (!count)
-	{
-		fprintf(stderr, "Number of input array elements is zero.\n");
-	}
-	
 	// Find address of node with largest key.
-	size_t largest, largest_left ,largest_right;
+	size_t largest;
 	
+	if (input_heap == NULL)
+	{
+		stderr << "Pointer to heap is NULL.\n");
+	}
+		
 	// Pointer to start of input array.
 	heap_node current = input_array[position];
 	heap_node *left = current.left;
@@ -69,7 +72,7 @@ size_t max_heapify(heap_node *input_array, unsigned int count, size_t position)
 	}
 		
 	return position;
-}
+} */
 
 /*
 BUILD-MAX-HEAP(A)
@@ -114,4 +117,95 @@ heap-size[A] <- heap-size[A] + 1
 A[heap-size[A]] <- -inf
 HEAP-INCREASE-KEY(A, heap-size[A], key)
 */
+
+void construct_heap(int *input_array, unsigned int array_size,
+	HeapNode *output_heap)
+{	
+	for (size_t i = array_size - 1; i >= array_size / 2; i--)
+	{
+		output_heap[i].key = input_array[i];
+		output_heap[i].index = i;
+		output_heap[i].left = NULL;
+		output_heap[i].right = NULL;
+	}
+	
+	for (size_t i = array_size / 2 - 1; i >= 0; i--)
+	{
+		unsigned int left_index, right_index;
 		
+		output_heap[i].key = input_array[i];
+		output_heap[i].index = i;
+		
+		left_index = i * 2 + 1;
+		if (left_index >= array_size)
+		{
+			output_heap[i].left = NULL;
+		}
+		else
+		{
+			output_heap[i].left = &output_heap[left_index];
+		}
+		
+		right_index = i * 2 + 2;
+		if (right_index >= array_size)
+		{
+			output_heap[i].right = NULL;
+		}
+		else
+		{
+			output_heap[i].right = &output_heap[right_index];
+		}
+	}		
+}
+
+void display_heap(HeapNode *output_heap, unsigned int array_size)
+{
+	cout << "Index\tKey\tLeft Key\tRight Key\n" << endl;
+	
+	for (size_t i = 0; i < array_size; i++)
+	{
+		HeapNode current = output_heap[i];
+		cout << i << "\t" << current.key << "\t";
+
+		if (current.left == NULL)
+			cout << "NA\t";
+		else
+			cout << (current.left)->key << "\t";
+
+		if (current.right == NULL)
+			cout << "NA" << endl;
+		else
+			cout << (current.right)->key << endl;
+	}
+}
+
+// Usage: <executable> array_of_integers 
+int main(int argc, char **argv)
+{
+	int *input_array = NULL;
+	HeapNode *output_heap = NULL;
+	unsigned int array_size;
+	
+	if (argc < 2)
+	{
+		cerr << "Insufficient number of input elements" << endl;
+		return ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS;
+	}
+	
+	array_size = argc - 1;
+	input_array = calloc(array_size, sizeof(int));
+	output_heap = calloc(array_size, sizeof(HeapNode));
+	
+	for (size_t i = 0; i < array_size; i++)
+	{
+		input_array[i] = argv[i + 1];
+	}
+
+	construct_heap(input_array, array_size, output_heap);
+	
+	display_heap(output_heap, array_size);
+	
+	return SUCCESS;
+}
+	
+	
