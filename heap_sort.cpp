@@ -120,8 +120,14 @@ HEAP-INCREASE-KEY(A, heap-size[A], key)
 
 void construct_heap(int *input_array, unsigned int array_size,
 	HeapNode *output_heap)
-{	
-	for (size_t i = array_size - 1; i >= array_size / 2; i--)
+{
+	if (input_array == NULL || output_heap == NULL)
+	{
+		cout << "Pointer is NULL" << endl;
+		return;
+	}
+
+	for (size_t i = (array_size - 1); i >= (array_size / 2); i--)
 	{
 		output_heap[i].key = input_array[i];
 		output_heap[i].index = i;
@@ -129,13 +135,13 @@ void construct_heap(int *input_array, unsigned int array_size,
 		output_heap[i].right = NULL;
 	}
 	
-	for (size_t i = array_size / 2 - 1; i >= 0; i--)
+	for (size_t i = (array_size / 2 - 1); i >= 0 && i < array_size; i--)
 	{
 		unsigned int left_index, right_index;
-		
+
 		output_heap[i].key = input_array[i];
 		output_heap[i].index = i;
-		
+	
 		left_index = i * 2 + 1;
 		if (left_index >= array_size)
 		{
@@ -160,22 +166,45 @@ void construct_heap(int *input_array, unsigned int array_size,
 
 void display_heap(HeapNode *output_heap, unsigned int array_size)
 {
-	cout << "Index\tKey\tLeft Key\tRight Key\n" << endl;
+	HeapDisplay *header = NULL;
+	
+	if (output_heap == NULL)
+	{
+		cout << "Pointer to output_heap is NULL" << endl;
+		return;
+	}
+
+	header = static_cast<HeapDisplay *>(calloc(HEAP_DISPLAY_FIELDS_LENGTH,
+		sizeof(HeapDisplay)));
+	header[0].field = "Index";
+	header[1].field = "Parent";
+	header[2].field = "Left Child";
+	header[3].field = "Right Child";
+
+	for (size_t i = 0; i < HEAP_DISPLAY_FIELDS_LENGTH; i++)
+	{
+		HeapPrintStr((header[i].field).c_str());
+	}
+	
+	cout << endl;
 	
 	for (size_t i = 0; i < array_size; i++)
 	{
 		HeapNode current = output_heap[i];
-		cout << i << "\t" << current.key << "\t";
+		HeapPrintNum(i);
+		HeapPrintNum(current.key);
 
 		if (current.left == NULL)
-			cout << "NA\t";
-		else
-			cout << (current.left)->key << "\t";
+			HeapPrintStr("NA");
+		else			
+			HeapPrintNum((current.left)->key);
 
 		if (current.right == NULL)
-			cout << "NA" << endl;
+			HeapPrintStr("NA");
 		else
-			cout << (current.right)->key << endl;
+			HeapPrintNum((current.right)->key);
+		
+		cout << endl;
 	}
 }
 
@@ -193,12 +222,14 @@ int main(int argc, char **argv)
 	}
 	
 	array_size = argc - 1;
-	input_array = calloc(array_size, sizeof(int));
-	output_heap = calloc(array_size, sizeof(HeapNode));
+	input_array = static_cast<int *>(calloc(array_size, sizeof(int)));
+	output_heap =
+		static_cast<HeapNode *>(calloc(array_size, sizeof(HeapNode)));
 	
 	for (size_t i = 0; i < array_size; i++)
 	{
-		input_array[i] = argv[i + 1];
+		std::string curr_argv = argv[i + 1];
+		input_array[i] = std::stoi(curr_argv);
 	}
 
 	construct_heap(input_array, array_size, output_heap);

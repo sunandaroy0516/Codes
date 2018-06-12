@@ -6,11 +6,18 @@
 5. HEAP-INCREASE-KEY(A, i, key)
 6. MAX-HEAP-INSERT(A, key) */
 
-#ifdef __HEAP_SORT__
+#ifndef __HEAP_SORT__
 #define __HEAP_SORT__
 
 #include <iostream>
 #include <stdlib.h>
+#include <cstdio>
+
+#define HEAP_DISPLAY_FIELDS_LENGTH	4
+#define HEAP_DISPLAY_FIELD_WIDTH	-13
+
+#define HeapPrintStr(value) printf("%*s", HEAP_DISPLAY_FIELD_WIDTH, value)
+#define HeapPrintNum(value) printf("%*d", HEAP_DISPLAY_FIELD_WIDTH, value)
 
 typedef enum
 {
@@ -22,14 +29,19 @@ typedef enum
 	SUCCESS = 0
 } ExitCode;
 
-typedef struct
+typedef struct __HeapNode__
 {
 	int key;
 	unsigned int index;
 	
-	HeapNode *left;
-	HeapNode *right;
+	__HeapNode__ *left;
+	__HeapNode__ *right;
 } HeapNode;
+
+typedef struct __HeapDisplay__
+{
+	std::string field;
+} HeapDisplay;
 
 /* 
 Input1	:	Pointer to array of integes
