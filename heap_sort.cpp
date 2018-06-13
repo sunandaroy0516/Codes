@@ -17,62 +17,59 @@ r <- RIGHT(i)
 if l <= heap-size[A] and A[l] > A[i]
 	then largest <- l
 	else largest <- i
-if r <= heap-size[A] and A[r] > A[i]
-	then largest <- r
-	else largest <- i
 if r <= heap-size[A] and A[r] > A[largest]
 	then largest <- r
 if largest != i
 	then exchange A[i] <-> A[largest]
 		MAX-HEAPIFY(A, largest)
 */
-/* size_t max_heapify(heap_node *input_heap, unsigned int heap_size,
-	size_t heap_index)
-{
-	// Find address of node with largest key.
-	size_t largest;
+void max_heapify(HeapNode *heap_to_sort, unsigned int heap_size,
+	unsigned int heap_index)
+{	
+	unsigned int largest, tmp;
+	HeapNode parent;
+	HeapNode *lchild = NULL;
+	HeapNode *rchild = NULL;
 	
-	if (input_heap == NULL)
+	if (heap_to_sort == NULL)
 	{
-		stderr << "Pointer to heap is NULL.\n");
+		stderr << "Pointer to heap_to_sort is NULL.\n");
 	}
-		
-	// Pointer to start of input array.
-	heap_node current = input_array[position];
-	heap_node *left = current.left;
-	heap_node *right = current.right;
-		
-	// Compare left child and current.
-	if (position < count && left->key > current.key)
-		largest_left = left->index;
+	
+	parent = heap_to_sort[heap_index];
+	lchild = parent.left;
+	rchild = parent.right;
+	
+	if (lchild == NULL)
+	{
+		largest = heap_index;
+	}
 	else
-		largest_left = position;
-		
-	// Compare right child and current.
-	if (position < count && right->key > current->key)
-		largest_right = right->index;
-	else
-		largest_right = position;
-		
-	// Compare largest of current and both children.
-	if (largest_left > largest_right)
-		largest = largest_left;
-	else
-		largest = largest_right;
-		 
-		if (largest != position)
-		{
-			// Exchange current element's key with largest element's key.
-			input_array[position].key = input_array[largest].key;
-			input_array[largest].key = current.key;
+	{
+		if (lchild->index < heap_size && lchild->key > parent.key)
+			largest = lchild->index;
+		else
+			largest = heap_index;
+	}
+
+	if (rchild != NULL)
+	{		
+		if (rchild->index < heap_size &&
+			rchild->key > heap_to_sort[largest].key)
+			largest = rchild->index;
+	}
 			
-			// Recursively do a max-heapify with new key of current heap_node.
-			MAX-HEAPIFY(input_array, position);
-		}
+	if (largest != heap_index)
+	{
+		// Exchange current element's key with largest element's key.
+		tmp = heap_to_sort[heap_index].key;
+		heap_to_sort[heap_index].key = heap_to_sort[largest].key;
+		heap_to_sort[largest].key = tmp;
+
+		// Recursively do a max-heapify on heap_to_sort[largest].
+		max_heapify(heap_to_sort, heap_size, largest);
 	}
-		
-	return position;
-} */
+}
 
 /*
 BUILD-MAX-HEAP(A)

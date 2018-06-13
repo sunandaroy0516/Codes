@@ -44,7 +44,15 @@ typedef struct __HeapDisplay__
 } HeapDisplay;
 
 /* 
-Input1	:	Pointer to array of integes
+Input_Output	:	Pointer to array of HeapNodes
+Input1	:	Size of array
+Input2 	:	Current index of pointer to array of HeapNodes
+Returns	:	None
+ */
+void max_heapify(HeapNode *, unsigned int, unsigned int);
+
+/* 
+Input1	:	Pointer to array of integers
 Input2	:	Size of array
 Output 	:	Pointer to array of heap elements
 Returns	:	None
