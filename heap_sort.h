@@ -60,10 +60,11 @@ Returns	:	None
 void construct_heap(int *, unsigned int, HeapNode *);
 
 /* 
-Input1	:	Pointer to array of heap elements
-Input2	:	Size of array
+Input1	:	Info regarding context of display
+Input2	:	Pointer to array of heap elements
+Input3	:	Size of array
 Returns	:	None
  */
-void display_heap(HeapNode *, unsigned int);
+void display_heap(std::string title, HeapNode *, unsigned int);
 
 #endif

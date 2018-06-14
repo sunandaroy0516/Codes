@@ -33,7 +33,8 @@ void max_heapify(HeapNode *heap_to_sort, unsigned int heap_size,
 	
 	if (heap_to_sort == NULL)
 	{
-		stderr << "Pointer to heap_to_sort is NULL.\n");
+		cerr << "Pointer to heap_to_sort is NULL." << endl;
+		return;
 	}
 	
 	parent = heap_to_sort[heap_index];
@@ -161,7 +162,8 @@ void construct_heap(int *input_array, unsigned int array_size,
 	}		
 }
 
-void display_heap(HeapNode *output_heap, unsigned int array_size)
+void display_heap(std::string title, HeapNode *output_heap,
+	unsigned int array_size)
 {
 	HeapDisplay *header = NULL;
 	
@@ -170,6 +172,8 @@ void display_heap(HeapNode *output_heap, unsigned int array_size)
 		cout << "Pointer to output_heap is NULL" << endl;
 		return;
 	}
+	
+	printf("%s\n", title.c_str());
 
 	header = static_cast<HeapDisplay *>(calloc(HEAP_DISPLAY_FIELDS_LENGTH,
 		sizeof(HeapDisplay)));
@@ -203,6 +207,8 @@ void display_heap(HeapNode *output_heap, unsigned int array_size)
 		
 		cout << endl;
 	}
+	
+	cout << endl;
 }
 
 // Usage: <executable> array_of_integers 
@@ -211,6 +217,7 @@ int main(int argc, char **argv)
 	int *input_array = NULL;
 	HeapNode *output_heap = NULL;
 	unsigned int array_size;
+	std::string title;
 	
 	if (argc < 2)
 	{
@@ -231,7 +238,13 @@ int main(int argc, char **argv)
 
 	construct_heap(input_array, array_size, output_heap);
 	
-	display_heap(output_heap, array_size);
+	title = "Unsorted";
+	display_heap(title, output_heap, array_size);
+	
+	max_heapify(output_heap, array_size, 1);
+	
+	title = "Max-heapify at Index 1";
+	display_heap(title, output_heap, array_size);
 	
 	return SUCCESS;
 }
