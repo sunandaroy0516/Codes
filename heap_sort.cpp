@@ -78,6 +78,23 @@ heap-size[A] <- length[A]
 for i <- floor(length[A] / 2) downto 1
 	do MAX-HEAPIFY(A, i)
 */
+void build_max_heap(HeapNode *heap_to_sort, unsigned int heap_size)
+{
+	unsigned int index;
+	float tmp_index;
+	
+	if (heap_to_sort == NULL)
+	{
+		cerr << "Pointer to heap_to_sort is NULL" << endl;
+		return;
+	}
+	
+	tmp_index = heap_size / 2;
+	index = floor(tmp_index);
+	
+	for (size_t i = index - 1; i >= 0 && i < heap_size; i--)
+		max_heapify(heap_to_sort, heap_size, i);
+}
 
 /*
 HEAPSORT(A)
@@ -241,9 +258,12 @@ int main(int argc, char **argv)
 	title = "Unsorted";
 	display_heap(title, output_heap, array_size);
 	
-	max_heapify(output_heap, array_size, 1);
+	// max_heapify(output_heap, array_size, 1);	
+	// title = "Max-heapify at Index 1";
 	
-	title = "Max-heapify at Index 1";
+	build_max_heap(output_heap, array_size);
+	
+	title = "Build-max-heap";
 	display_heap(title, output_heap, array_size);
 	
 	return SUCCESS;

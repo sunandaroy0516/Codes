@@ -12,6 +12,7 @@
 #include <iostream>
 #include <stdlib.h>
 #include <cstdio>
+#include <cmath>
 
 #define HEAP_DISPLAY_FIELDS_LENGTH	4
 #define HEAP_DISPLAY_FIELD_WIDTH	-13
@@ -50,6 +51,13 @@ Input2 	:	Current index of pointer to array of HeapNodes
 Returns	:	None
  */
 void max_heapify(HeapNode *, unsigned int, unsigned int);
+
+/* 
+Input_Output	:	Pointer to array of HeapNodes
+Input	:	Size of array
+Returns	:	None
+ */
+void build_max_heap(HeapNode *, unsigned int);
 
 /* 
 Input1	:	Pointer to array of integers
