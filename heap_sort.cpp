@@ -137,6 +137,45 @@ heap-size[A] <- heap-size[A] - 1
 MAX-HEAPIFY(A, 1)
 return max
 */
+int heap_extract_max(HeapNode *heap_to_update, unsigned int *heap_size)
+{
+	unsigned int tmp_child, tmp_parent;
+	int max;
+	
+	if (heap_to_update == NULL || heap_size == NULL)
+	{
+		cerr << "Pointer is NULL." << endl;
+		return ERR_NULL_POINTER;
+	}
+	
+	tmp_child = *heap_size - 1;
+	if (tmp_child == 0)
+	{
+		cerr << "Heap underflow" << endl;
+		return ERR_HEAP_UNDERFLOW;
+	}
+	
+	max = heap_to_update[0].key;
+	heap_to_update[0].key = heap_to_update[tmp_child].key;
+	
+	if (tmp_child % 2 == 0)
+	{
+		tmp_parent = (tmp_child - 2) / 2;
+		free(heap_to_update[tmp_parent].right);
+		heap_to_update[tmp_parent].right = NULL;
+	}
+	else
+	{
+		tmp_parent = (tmp_child - 1) / 2;
+		free(heap_to_update[tmp_parent].left);
+		heap_to_update[tmp_parent].left = NULL;
+	}
+	
+	*heap_size = tmp_child;
+	max_heapify(heap_to_update, *heap_size, 0);
+
+	return max;
+}
 
 /*
 HEAP-INCREASE-KEY(A, i, key)
@@ -255,7 +294,7 @@ int main(int argc, char **argv)
 {
 	int *input_array = NULL;
 	HeapNode *output_heap = NULL;
-	unsigned int array_size;
+	unsigned int array_size, heap_size;	
 	std::string title;
 	
 	if (argc < 2)
@@ -286,10 +325,14 @@ int main(int argc, char **argv)
 	// build_max_heap(output_heap, array_size);
 	// title = "Build-max-heap";
 	
-	heap_sort(output_heap, array_size);
+	// heap_sort(output_heap, array_size);	
+	// title = "Heapsort: max-heap";
 	
-	title = "Heapsort: max-heap";
-	display_heap(title, output_heap, array_size);
+	title = "Heap-extract-max";
+	heap_size = array_size;
+	cout << "Max value of key: " << heap_extract_max(output_heap, &heap_size)
+		<< endl;
+	display_heap(title, output_heap, heap_size);
 	
 	return SUCCESS;
 }
