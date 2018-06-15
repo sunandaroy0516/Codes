@@ -13,17 +13,18 @@
 #include <stdlib.h>
 #include <cstdio>
 #include <cmath>
+#include <limits>
 
 #define HEAP_DISPLAY_FIELDS_LENGTH	4
 #define HEAP_DISPLAY_FIELD_WIDTH	-13
+#define HEAP_MAX_ELEMENTS			20
 
 #define HeapPrintStr(value) printf("%*s", HEAP_DISPLAY_FIELD_WIDTH, value)
 #define HeapPrintNum(value) printf("%*d", HEAP_DISPLAY_FIELD_WIDTH, value)
 
 typedef enum
 {
-/* 	ERR_INVALID_NUMBER_OF_ARGUMENTS = -5,
-	ERR_INVALID_LENGTH_OF_SMALLER_STRING = -4, */
+	ERR_OVERFLOW_OF_NUMBER_OF_ARGUMENTS = -4,
 	ERR_HEAP_UNDERFLOW = -3,
 	ERR_NULL_POINTER = -2,
 	ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS = -1,
@@ -93,6 +94,14 @@ Input3	:	New key
 Returns	:	None
  */
 void heap_increase_key(HeapNode *, unsigned int, unsigned int, int);
+
+/* 
+Input_Output1	:	Pointer to array of HeapNodes
+Input_Output2	:	Size of array
+Input	:	New key
+Returns	:	None
+ */
+void max_heap_insert(HeapNode *, unsigned int *, int);
 
 /* 
 Input1	:	Pointer to array of integers

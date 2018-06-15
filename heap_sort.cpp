@@ -226,6 +226,32 @@ heap-size[A] <- heap-size[A] + 1
 A[heap-size[A]] <- -inf
 HEAP-INCREASE-KEY(A, heap-size[A], key)
 */
+void max_heap_insert(HeapNode *heap_to_update, unsigned int *heap_size,
+	int key)
+{
+	unsigned int end;
+	
+	if (heap_to_update == NULL || heap_size == NULL)
+	{
+		cerr << "Pointer cannot be NULL." << endl;
+		return;
+	}
+	
+	*heap_size = *heap_size + 1;
+	end = *heap_size - 1;	
+	heap_to_update[end].key = std::numeric_limits<int>::min();
+	
+	if (end % 2 == 0)
+	{
+		heap_to_update[parent(end)].right = &heap_to_update[end];
+	}
+	else
+	{
+		heap_to_update[parent(end)].left = &heap_to_update[end];
+	}
+	
+	heap_increase_key(heap_to_update, *heap_size, end, key); 
+}
 
 void construct_heap(int *input_array, unsigned int array_size,
 	HeapNode *output_heap)
@@ -336,10 +362,17 @@ int main(int argc, char **argv)
 		return ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS;
 	}
 	
+	if (argc >= HEAP_MAX_ELEMENTS)
+	{
+		cerr << "Maximum allowed number of input elements is " <<
+			HEAP_MAX_ELEMENTS << endl;
+		return ERR_OVERFLOW_OF_NUMBER_OF_ARGUMENTS;
+	}
+	
 	array_size = argc - 1;
 	input_array = static_cast<int *>(calloc(array_size, sizeof(int)));
 	output_heap =
-		static_cast<HeapNode *>(calloc(array_size, sizeof(HeapNode)));
+		static_cast<HeapNode *>(calloc(HEAP_MAX_ELEMENTS, sizeof(HeapNode)));
 	
 	for (size_t i = 0; i < array_size; i++)
 	{
@@ -365,8 +398,11 @@ int main(int argc, char **argv)
 	// cout << "Max value of key: " << heap_extract_max(output_heap, &array_size)
 		// << endl;
 	
-	heap_increase_key(output_heap, array_size, 8, 15);
-	title = "Heap-increase-key";
+	// heap_increase_key(output_heap, array_size, 8, 15);
+	// title = "Heap-increase-key";
+	
+	max_heap_insert(output_heap, &array_size, 15);
+	title = "Max-heap-insert";
 
 	display_heap(title, output_heap, array_size);
 	
