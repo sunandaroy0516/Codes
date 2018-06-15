@@ -44,6 +44,18 @@ typedef struct __HeapDisplay__
 	std::string field;
 } HeapDisplay;
 
+inline unsigned int parent(unsigned int child)
+{
+	unsigned int parent;
+	
+	if (child % 2 == 0)
+		parent = (child - 2) / 2;
+	else
+		parent = (child - 1) / 2;
+	
+	return parent;
+}
+
 /* 
 Input_Output	:	Pointer to array of HeapNodes
 Input1	:	Size of array
@@ -72,6 +84,15 @@ Input	:	Size of array
 Returns	:	None
  */
 int heap_extract_max(HeapNode *, unsigned int);
+
+/* 
+Input_Output	:	Pointer to array of HeapNodes
+Input1	:	Size of array
+Input2	:	Index to update
+Input3	:	New key
+Returns	:	None
+ */
+void heap_increase_key(HeapNode *, unsigned int, unsigned int, int);
 
 /* 
 Input1	:	Pointer to array of integers

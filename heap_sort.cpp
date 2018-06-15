@@ -186,6 +186,39 @@ while i > 1 and A[PARENT(i)] < A[i]
 	do exchange A[i] <-> A[PARENT(i)]
 		i <- PARENT(i)
 */
+void heap_increase_key(HeapNode *heap_to_update, unsigned int heap_size,
+	unsigned int index_to_update, int new_key)
+{
+	unsigned int current;
+	int tmp;
+	
+	if (heap_to_update == NULL)
+	{
+		cerr << "Pointer to heap_to_update is NULL." << endl;
+		return;
+	}
+	
+	current = index_to_update;
+	if (new_key < heap_to_update[current].key)
+	{
+		cerr << "New key is smaller than current key" << endl;
+		return;
+	}	
+	
+	heap_to_update[current].key = new_key;
+	
+	while (current > 0 &&
+		heap_to_update[parent(current)].key < heap_to_update[current].key)
+	{
+		unsigned int parent_index = parent(current);
+		
+		tmp = heap_to_update[current].key;
+		heap_to_update[current].key = heap_to_update[ parent_index].key;
+		heap_to_update[ parent_index].key = tmp;
+		
+		current = parent_index;
+	}
+}
 
 /*
 MAX-HEAP-INSERT(A, key)
@@ -294,7 +327,7 @@ int main(int argc, char **argv)
 {
 	int *input_array = NULL;
 	HeapNode *output_heap = NULL;
-	unsigned int array_size, heap_size;	
+	unsigned int array_size;	
 	std::string title;
 	
 	if (argc < 2)
@@ -328,11 +361,14 @@ int main(int argc, char **argv)
 	// heap_sort(output_heap, array_size);	
 	// title = "Heapsort: max-heap";
 	
-	title = "Heap-extract-max";
-	heap_size = array_size;
-	cout << "Max value of key: " << heap_extract_max(output_heap, &heap_size)
-		<< endl;
-	display_heap(title, output_heap, heap_size);
+	// title = "Heap-extract-max";
+	// cout << "Max value of key: " << heap_extract_max(output_heap, &array_size)
+		// << endl;
+	
+	heap_increase_key(output_heap, array_size, 8, 15);
+	title = "Heap-increase-key";
+
+	display_heap(title, output_heap, array_size);
 	
 	return SUCCESS;
 }
