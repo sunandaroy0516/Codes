@@ -60,6 +60,13 @@ Returns	:	None
 void build_max_heap(HeapNode *, unsigned int);
 
 /* 
+Input_Output	:	Pointer to array of HeapNodes
+Input	:	Size of array
+Returns	:	None
+ */
+void heap_sort(HeapNode *, unsigned int);
+
+/* 
 Input1	:	Pointer to array of integers
 Input2	:	Size of array
 Output 	:	Pointer to array of heap elements

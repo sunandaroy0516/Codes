@@ -85,7 +85,7 @@ void build_max_heap(HeapNode *heap_to_sort, unsigned int heap_size)
 	
 	if (heap_to_sort == NULL)
 	{
-		cerr << "Pointer to heap_to_sort is NULL" << endl;
+		cerr << "Pointer to heap_to_sort is NULL." << endl;
 		return;
 	}
 	
@@ -104,6 +104,28 @@ for i <- length[A] downto 2
 		heap-size[A] <- heap-size[A] - 1
 		MAX-HEAPIFY(A, 1)
 */
+void heap_sort(HeapNode *heap_to_sort, unsigned int heap_size)
+{
+	unsigned int tmp, end;
+	
+	if (heap_to_sort == NULL)
+	{
+		cerr << "Pointer to heap_to_sort is NULL." << endl;
+		return;
+	}
+	
+	build_max_heap(heap_to_sort, heap_size);
+	
+	end = heap_size - 1;
+	for (size_t i = end; i > 0 && i < heap_size; i--, end--)
+	{
+		tmp = heap_to_sort[0].key;
+		heap_to_sort[0].key = heap_to_sort[end].key;
+		heap_to_sort[end].key = tmp;
+
+		max_heapify(heap_to_sort, end, 0);
+	}		
+}	
 
 /*
 HEAP-EXTRACT-MAX(A)
@@ -261,9 +283,12 @@ int main(int argc, char **argv)
 	// max_heapify(output_heap, array_size, 1);	
 	// title = "Max-heapify at Index 1";
 	
-	build_max_heap(output_heap, array_size);
+	// build_max_heap(output_heap, array_size);
+	// title = "Build-max-heap";
 	
-	title = "Build-max-heap";
+	heap_sort(output_heap, array_size);
+	
+	title = "Heapsort: max-heap";
 	display_heap(title, output_heap, array_size);
 	
 	return SUCCESS;
