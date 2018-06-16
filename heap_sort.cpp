@@ -41,6 +41,7 @@ void max_heapify(HeapNode *heap_to_sort, unsigned int heap_size,
 	lchild = parent.left;
 	rchild = parent.right;
 	
+	// Calculate index with largest element in left subtree.
 	if (lchild == NULL)
 	{
 		largest = heap_index;
@@ -53,6 +54,7 @@ void max_heapify(HeapNode *heap_to_sort, unsigned int heap_size,
 			largest = heap_index;
 	}
 
+	// Calculate index with largest element in right subtree.
 	if (rchild != NULL)
 	{		
 		if (rchild->index < heap_size &&
@@ -89,9 +91,11 @@ void build_max_heap(HeapNode *heap_to_sort, unsigned int heap_size)
 		return;
 	}
 	
+	// Calculate position of node preceding leaves of heap. 
 	tmp_index = heap_size / 2;
 	index = floor(tmp_index);
 	
+	// Max-heapify each parent node.
 	for (size_t i = index - 1; i >= 0 && i < heap_size; i--)
 		max_heapify(heap_to_sort, heap_size, i);
 }
@@ -119,6 +123,7 @@ void heap_sort(HeapNode *heap_to_sort, unsigned int heap_size)
 	end = heap_size - 1;
 	for (size_t i = end; i > 0 && i < heap_size; i--, end--)
 	{
+		// Exchange last node's key with max key at root.
 		tmp = heap_to_sort[0].key;
 		heap_to_sort[0].key = heap_to_sort[end].key;
 		heap_to_sort[end].key = tmp;
@@ -139,7 +144,7 @@ return max
 */
 int heap_extract_max(HeapNode *heap_to_update, unsigned int *heap_size)
 {
-	unsigned int tmp_child, tmp_parent;
+	unsigned int current, parent;
 	int max;
 	
 	if (heap_to_update == NULL || heap_size == NULL)
@@ -148,30 +153,34 @@ int heap_extract_max(HeapNode *heap_to_update, unsigned int *heap_size)
 		return ERR_NULL_POINTER;
 	}
 	
-	tmp_child = *heap_size - 1;
-	if (tmp_child == 0)
+	current = *heap_size - 1;
+	if (current == 0)
 	{
 		cerr << "Heap underflow" << endl;
 		return ERR_HEAP_UNDERFLOW;
 	}
 	
+	// Store current value of max key and replace it with key of last node.
 	max = heap_to_update[0].key;
-	heap_to_update[0].key = heap_to_update[tmp_child].key;
+	heap_to_update[0].key = heap_to_update[current].key;
 	
-	if (tmp_child % 2 == 0)
+	/* Calculate parent node from current node and update pointer to its
+	child nodes. */
+	if (current % 2 == 0)
 	{
-		tmp_parent = (tmp_child - 2) / 2;
-		free(heap_to_update[tmp_parent].right);
-		heap_to_update[tmp_parent].right = NULL;
+		parent = (current - 2) / 2;
+		free(heap_to_update[parent].right);
+		heap_to_update[parent].right = NULL;
 	}
 	else
 	{
-		tmp_parent = (tmp_child - 1) / 2;
-		free(heap_to_update[tmp_parent].left);
-		heap_to_update[tmp_parent].left = NULL;
+		parent = (current - 1) / 2;
+		free(heap_to_update[parent].left);
+		heap_to_update[parent].left = NULL;
 	}
 	
-	*heap_size = tmp_child;
+	// Update size of heap and max-heapify at root.
+	*heap_size = current;
 	max_heapify(heap_to_update, *heap_size, 0);
 
 	return max;
@@ -197,7 +206,7 @@ void heap_increase_key(HeapNode *heap_to_update, unsigned int heap_size,
 		cerr << "Pointer to heap_to_update is NULL." << endl;
 		return;
 	}
-	
+
 	current = index_to_update;
 	if (new_key < heap_to_update[current].key)
 	{
@@ -206,12 +215,14 @@ void heap_increase_key(HeapNode *heap_to_update, unsigned int heap_size,
 	}	
 	
 	heap_to_update[current].key = new_key;
-	
+		
 	while (current > 0 &&
 		heap_to_update[parent(current)].key < heap_to_update[current].key)
 	{
 		unsigned int parent_index = parent(current);
 		
+		/* Compare current node's key with parent node's key and exchange to
+		maintain max-heap property. */
 		tmp = heap_to_update[current].key;
 		heap_to_update[current].key = heap_to_update[ parent_index].key;
 		heap_to_update[ parent_index].key = tmp;
@@ -237,10 +248,12 @@ void max_heap_insert(HeapNode *heap_to_update, unsigned int *heap_size,
 		return;
 	}
 	
+	// Update size of heap and initialize newly inserted node.
 	*heap_size = *heap_size + 1;
 	end = *heap_size - 1;	
 	heap_to_update[end].key = std::numeric_limits<int>::min();
 	
+	// Update parent node with pointer to new node.
 	if (end % 2 == 0)
 	{
 		heap_to_update[parent(end)].right = &heap_to_update[end];
@@ -262,6 +275,8 @@ void construct_heap(int *input_array, unsigned int array_size,
 		return;
 	}
 
+	/* Construct nodes of leaves with pointer to its children initialized to
+	NULL. */
 	for (size_t i = (array_size - 1); i >= (array_size / 2); i--)
 	{
 		output_heap[i].key = input_array[i];
@@ -270,6 +285,7 @@ void construct_heap(int *input_array, unsigned int array_size,
 		output_heap[i].right = NULL;
 	}
 	
+	// Construct remaining nodes and update pointer to its children.
 	for (size_t i = (array_size / 2 - 1); i >= 0 && i < array_size; i--)
 	{
 		unsigned int left_index, right_index;
@@ -319,6 +335,7 @@ void display_heap(std::string title, HeapNode *output_heap,
 	header[2].field = "Left Child";
 	header[3].field = "Right Child";
 
+	// Print header of table.
 	for (size_t i = 0; i < HEAP_DISPLAY_FIELDS_LENGTH; i++)
 	{
 		HeapPrintStr((header[i].field).c_str());
@@ -326,6 +343,7 @@ void display_heap(std::string title, HeapNode *output_heap,
 	
 	cout << endl;
 	
+	// Print body of table.
 	for (size_t i = 0; i < array_size; i++)
 	{
 		HeapNode current = output_heap[i];
@@ -391,8 +409,8 @@ int main(int argc, char **argv)
 	// build_max_heap(output_heap, array_size);
 	// title = "Build-max-heap";
 	
-	// heap_sort(output_heap, array_size);	
-	// title = "Heapsort: max-heap";
+	heap_sort(output_heap, array_size);	
+	title = "Heapsort: max-heap";
 	
 	// title = "Heap-extract-max";
 	// cout << "Max value of key: " << heap_extract_max(output_heap, &array_size)
@@ -401,8 +419,8 @@ int main(int argc, char **argv)
 	// heap_increase_key(output_heap, array_size, 8, 15);
 	// title = "Heap-increase-key";
 	
-	max_heap_insert(output_heap, &array_size, 15);
-	title = "Max-heap-insert";
+	// max_heap_insert(output_heap, &array_size, 15);
+	// title = "Max-heap-insert";
 
 	display_heap(title, output_heap, array_size);
 	
