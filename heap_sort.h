@@ -119,4 +119,11 @@ Returns	:	None
  */
 void display_heap(std::string title, HeapNode *, unsigned int);
 
+/* 
+Input_Output	:	Pointer to array of integers
+Input	:	Size of array
+Returns	:	None
+ */
+void sort_integers_ascending(int *, unsigned int);
+
 #endif

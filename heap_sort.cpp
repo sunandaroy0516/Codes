@@ -366,8 +366,36 @@ void display_heap(std::string title, HeapNode *output_heap,
 	cout << endl;
 }
 
+void sort_integers_ascending(int *array_to_sort, unsigned int array_size)
+{
+	HeapNode *output_heap = NULL;
+	
+	if (array_to_sort == NULL)
+	{
+		cerr << "Pointer to array_to_sort is NULL" << endl;
+		return;
+	}
+	
+	if (array_size == 0)
+	{
+		cerr << "Size of array is 0" << endl;
+		return;
+	}
+	
+	output_heap =
+		static_cast<HeapNode *>(calloc(HEAP_MAX_ELEMENTS, sizeof(HeapNode)));
+	
+	construct_heap(array_to_sort, array_size, output_heap);
+	heap_sort(output_heap, array_size);
+	
+	for (size_t i = 0; i < array_size; i++)
+	{
+		array_to_sort[i] = output_heap[i].key;
+	}
+}
+
 // Usage: <executable> array_of_integers 
-int main(int argc, char **argv)
+/* int main(int argc, char **argv)
 {
 	int *input_array = NULL;
 	HeapNode *output_heap = NULL;
@@ -376,7 +404,7 @@ int main(int argc, char **argv)
 	
 	if (argc < 2)
 	{
-		cerr << "Insufficient number of input elements" << endl;
+		cerr << "Insufficient number of input elements." << endl;
 		return ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS;
 	}
 	
@@ -403,28 +431,28 @@ int main(int argc, char **argv)
 	title = "Unsorted";
 	display_heap(title, output_heap, array_size);
 	
-	// max_heapify(output_heap, array_size, 1);	
-	// title = "Max-heapify at Index 1";
+	max_heapify(output_heap, array_size, 1);	
+	title = "Max-heapify at Index 1";
 	
-	// build_max_heap(output_heap, array_size);
-	// title = "Build-max-heap";
+	build_max_heap(output_heap, array_size);
+	title = "Build-max-heap";
 	
 	heap_sort(output_heap, array_size);	
 	title = "Heapsort: max-heap";
 	
-	// title = "Heap-extract-max";
-	// cout << "Max value of key: " << heap_extract_max(output_heap, &array_size)
-		// << endl;
+	title = "Heap-extract-max";
+	cout << "Max value of key: " << heap_extract_max(output_heap, &array_size)
+		<< endl;
 	
-	// heap_increase_key(output_heap, array_size, 8, 15);
-	// title = "Heap-increase-key";
+	heap_increase_key(output_heap, array_size, 8, 15);
+	title = "Heap-increase-key";
 	
-	// max_heap_insert(output_heap, &array_size, 15);
-	// title = "Max-heap-insert";
+	max_heap_insert(output_heap, &array_size, 15);
+	title = "Max-heap-insert";
 
 	display_heap(title, output_heap, array_size);
 	
 	return SUCCESS;
-}
+} */
 	
 	
