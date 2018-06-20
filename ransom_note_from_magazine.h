@@ -8,7 +8,9 @@ can be formed from a given magazine (string)? */
 #include <iostream>
 #include <ctype.h>
 #include <string.h>
+#include <string>
 #include <cstdio>
+#include <map>
 #include "error_codes.h"
 
 #define MAX_ARRAY_SIZE	100
@@ -31,7 +33,14 @@ void construct_phrase(std::string, Phrase *);
 Input	:	Pointer to a Phrase object
 Returns	:	None
  */
- void display_phrase(Phrase *);
+void display_phrase(Phrase *);
+
+/* 
+Input1	:	Pointer to a Phrase object
+Input2	:	Pointer to a Phrase object
+Returns	:	None
+ */
+void compare_phrases(Phrase *, Phrase *);
 
 #endif
 
