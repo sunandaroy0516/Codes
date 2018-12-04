@@ -9,17 +9,9 @@ location of each permutation. */
 #include <string>
 #include <limits>
 
-#define MAX_LENGTH	4
+#include "error_codes.h"
 
-typedef enum
-{
-	ERR_INVALID_NUMBER_OF_ARGUMENTS = -5,
-	ERR_INVALID_LENGTH_OF_SMALLER_STRING = -4,
-	ERR_NULL_POINTER = -3,
-	ERR_INSUFFICIENT_NUMBER_OF_KEYS_IN_BIGGER_STRING = -2,
-	ERR_SMALLER_STRING_CANNOT_EXIST_IN_BIGGER_STRING = -1,
-	SUCCESS = 0
-} ExitCode;
+#define MAX_LENGTH	4
 
 typedef struct
 {
