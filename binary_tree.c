@@ -25,6 +25,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+#include "error_codes.h"
+
 typedef struct node
 {
 	int key;
@@ -53,6 +55,12 @@ myNodePtr create_bst()
 	printf("Enter no. of keys to insert:\n");
 	scanf("%d", &num);
 	
+	if(num <= 0)
+	{
+		printf("No. of keys cannot be zero.\n");
+		return NULL;
+	}
+	
 	while(cnt < num)
 	{
 		printf("%d. Enter key value:\n", cnt+1);
@@ -73,7 +81,7 @@ myNodePtr create_bst()
 		{	
 			//Traverse to the child node where key needs to be 
 			//inserted.
-			while(1)
+			while(num != 1)
 			{
 				/* Store parent node info. */
 				parent = bstcurr;
@@ -122,14 +130,6 @@ myNodePtr create_bst()
  */
 void traverse_inorder(myNodePtr bsthead)
 {
-	printf("Inorder traversal of BST.\n");
-	/* Error check for valid BST. */
-	if(bsthead == NULL)
-	{
-		printf("Error: BST does not exist.\n");
-		return;
-	}
-	
 	/* Traverse to node with smallest key value. */
 	myNodePtr bstcurr = bsthead;
 	if(bstcurr->lchild != NULL)
@@ -137,6 +137,8 @@ void traverse_inorder(myNodePtr bsthead)
 		while(bstcurr->lchild != NULL)
 			bstcurr = bstcurr->lchild;
 	}
+	
+	printf("Inorder traversal of BST.\n");
 	
 	if(bstcurr != bsthead)
 	{
@@ -155,10 +157,10 @@ void traverse_inorder(myNodePtr bsthead)
 	else
 	{
 		/* Display subtree to the right of root. */
-		printf("%d\t->\t", bstcurr->key);
+		printf("%d\t", bstcurr->key);
 		if(bstcurr->rchild != NULL)
 		{
-			printf("%d\n", (bstcurr->rchild)->key);
+			printf("->\t%d\n", (bstcurr->rchild)->key);
 		}
 	}		
 }
@@ -166,6 +168,13 @@ void traverse_inorder(myNodePtr bsthead)
 int main()
 {
 	myNodePtr bsthead = create_bst();
+	
+	/* Error check for valid BST. */
+	if(bsthead == NULL)
+	{
+		return ERR_NULL_POINTER;
+	}
+	
 	traverse_inorder(bsthead);
 	
 	free(bsthead);
