@@ -50,14 +50,14 @@ myNodePtr create_bst()
 	/* Pointer to parent node of current node. */
 	myNodePtr parent = malloc(sizeof(myNode));
 	
-	/* User input. */	
+	/* User input. */
 	printf("Create binary search tree.\n");
 	printf("Enter no. of keys to insert:\n");
 	scanf("%d", &num);
 	
 	if(num <= 0)
 	{
-		printf("No. of keys cannot be zero.\n");
+		printf("Invalid no. of keys.\n");
 		return NULL;
 	}
 	
@@ -66,19 +66,18 @@ myNodePtr create_bst()
 		printf("%d. Enter key value:\n", cnt+1);
 		scanf("%d", &key);
 		
-		/* Initialize current node to head of BST. */
-		bstcurr = bsthead;
-		
 		if(cnt == 0)
 		{
 			/* Store head pointer info. */
-			bsthead->key = key;
-			bsthead->parent = NULL;
-			bsthead->lchild = NULL;
-			bsthead->rchild = NULL;
+			bstcurr->key = key;
+			bstcurr->parent = NULL;
+			bstcurr->lchild = NULL;
+			bstcurr->rchild = NULL;
+			/* Initialize current node to head of BST. */
+			bsthead = bstcurr;
 		}
 		else
-		{	
+		{
 			//Traverse to the child node where key needs to be 
 			//inserted.
 			while(num != 1)
@@ -132,6 +131,7 @@ void traverse_inorder(myNodePtr bsthead)
 {
 	/* Traverse to node with smallest key value. */
 	myNodePtr bstcurr = bsthead;
+
 	if(bstcurr->lchild != NULL)
 	{
 		while(bstcurr->lchild != NULL)
@@ -139,28 +139,28 @@ void traverse_inorder(myNodePtr bsthead)
 	}
 	
 	printf("Inorder traversal of BST.\n");
-	
+
 	if(bstcurr != bsthead)
 	{
 		/* Display subtree to the left of root. */
-		printf("%d\t->\t", bstcurr->key);
+		printf("%d", bstcurr->key);
 		while(bstcurr->parent != NULL)
-		{			
+		{
 			bstcurr = bstcurr->parent;	
-			printf("%d\t->\t", bstcurr->key);
+			printf("\t->\t%d", bstcurr->key);
 			if(bstcurr->rchild != NULL)
 			{
-				printf("%d\n", (bstcurr->rchild)->key);
+				printf("\t->\t%d\n", (bstcurr->rchild)->key);
 			}
 		}
 	}
 	else
 	{
 		/* Display subtree to the right of root. */
-		printf("%d\t", bstcurr->key);
+		printf("%d", bstcurr->key);
 		if(bstcurr->rchild != NULL)
 		{
-			printf("->\t%d\n", (bstcurr->rchild)->key);
+			printf("\t->\t%d\n", (bstcurr->rchild)->key);
 		}
 	}		
 }
