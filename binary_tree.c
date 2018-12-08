@@ -34,21 +34,6 @@ typedef struct node
 
 } myNode, *myNodePtr;
 
-myNodePtr get_leftmost_child(myNodePtr current)
-{
-	if(current->lchild != NULL)
-	{
-		while(current->lchild != NULL)
-			current = current->lchild;
-	}
-	else
-	{
-		printf("Left child does not exist.\n");
-	}
-	
-	return current;
-}
-
 /*
  * Description: Create a binary search tree from user input.
  * Arguments  : None.
@@ -80,22 +65,23 @@ myNodePtr create_bst()
 	{
 		printf("%d. Enter key value:\n", cnt+1);
 		scanf("%d", &key);
-
+		
+		/* Initialize current node to head of BST. */
+		bstcurr = bsthead;
+		
 		if(cnt == 0)
 		{
 			/* Store head pointer info. */
-			bstcurr->key = key;
-			bstcurr->parent = NULL;
-			bstcurr->lchild = NULL;
-			bstcurr->rchild = NULL;
-			/* Initialize current node to head of BST. */
-			bsthead = bstcurr;
+			bsthead->key = key;
+			bsthead->parent = NULL;
+			bsthead->lchild = NULL;
+			bsthead->rchild = NULL;
 		}
 		else
 		{
 			//Traverse to the child node where key needs to be
 			//inserted.
-			while(num != 1)
+			while(1)
 			{
 				/* Store parent node info. */
 				parent = bstcurr;
@@ -144,11 +130,22 @@ myNodePtr create_bst()
  */
 void traverse_inorder(myNodePtr bsthead)
 {
-	/* Traverse to node with smallest key value. */
 	printf("Inorder traversal of BST.\n");
+	/* Error check for valid BST. */
+	if(bsthead == NULL)
+	{
+		printf("Error: BST does not exist.\n");
+		return;
+	}
 	
-	myNodePtr bstcurr = get_leftmost_child(bsthead);
-
+	/* Traverse to node with smallest key value. */
+	myNodePtr bstcurr = bsthead;
+	if(bstcurr->lchild != NULL)
+	{
+		while(bstcurr->lchild != NULL)
+			bstcurr = bstcurr->lchild;
+	}
+	
 	if(bstcurr != bsthead)
 	{
 		/* Display subtree to the left of root. */
@@ -166,23 +163,12 @@ void traverse_inorder(myNodePtr bsthead)
 	else
 	{
 		/* Display subtree to the right of root. */
+		printf("%d\t->\t", bstcurr->key);
 		if(bstcurr->rchild != NULL)
-		{			
-			while(bstcurr != NULL)
-			{
-				bstcurr = bstcurr->rchild;
-				if(bstcurr->lchild != NULL)
-				{
-					printf("\t->\t%d", (bstcurr->lchild)->key);
-				}				
-				printf("\t->\t%d", bstcurr->key);
-				if(bstcurr->rchild != NULL)
-				{
-					printf("\t->\t%d", (bstcurr->rchild)->key);
-				}	
-			}	
+		{
+			printf("%d\n", (bstcurr->rchild)->key);
 		}
-	}
+	}		
 }
 
 int main()
