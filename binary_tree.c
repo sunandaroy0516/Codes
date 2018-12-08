@@ -51,7 +51,6 @@ myNodePtr create_bst()
 	myNodePtr parent = malloc(sizeof(myNode));
 
 	/* User input. */
-	printf("Create binary search tree.\n");
 	printf("Enter no. of keys to insert:\n");
 	scanf("%d", &num);
 
@@ -65,10 +64,10 @@ myNodePtr create_bst()
 	{
 		printf("%d. Enter key value:\n", cnt+1);
 		scanf("%d", &key);
-		
+
 		/* Initialize current node to head of BST. */
 		bstcurr = bsthead;
-		
+
 		if(cnt == 0)
 		{
 			/* Store head pointer info. */
@@ -137,7 +136,7 @@ void traverse_inorder(myNodePtr bsthead)
 		printf("Error: BST does not exist.\n");
 		return;
 	}
-	
+
 	/* Traverse to node with smallest key value. */
 	myNodePtr bstcurr = bsthead;
 	if(bstcurr->lchild != NULL)
@@ -145,7 +144,7 @@ void traverse_inorder(myNodePtr bsthead)
 		while(bstcurr->lchild != NULL)
 			bstcurr = bstcurr->lchild;
 	}
-	
+
 	if(bstcurr != bsthead)
 	{
 		/* Display subtree to the left of root. */
@@ -166,9 +165,35 @@ void traverse_inorder(myNodePtr bsthead)
 		printf("%d\t->\t", bstcurr->key);
 		if(bstcurr->rchild != NULL)
 		{
-			printf("%d\n", (bstcurr->rchild)->key);
+			bstcurr = bstcurr->rchild;
+			while(1)
+			{
+				if (bstcurr->lchild == NULL && bstcurr->rchild == NULL)
+				{
+					break;
+				}
+
+				if(bstcurr->lchild != NULL)
+				{
+					printf("\t->\t%d", (bstcurr->lchild)->key);
+				}
+
+				printf("%d", bstcurr->key);
+
+				if(bstcurr->rchild != NULL)
+				{
+					bstcurr = bstcurr->rchild;
+					printf("\t->\t%d", bstcurr->key);
+
+					if(bstcurr->rchild != NULL)
+					{
+						printf("\t->\t%d", (bstcurr->rchild)->key);
+					}
+				}
+
+			}
 		}
-	}		
+	}
 }
 
 int main()
