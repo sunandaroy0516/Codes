@@ -44,9 +44,9 @@ myNodePtr create_bst()
 	int num, key, cnt = 0;
 
 	/* Pointer to head of BST. */
-	myNodePtr bsthead = malloc(sizeof(myNode));
+	myNodePtr head = malloc(sizeof(myNode));
 	/* Pointer to current node of BST. */
-	myNodePtr bstcurr = malloc(sizeof(myNode));
+	myNodePtr curr = malloc(sizeof(myNode));
 	/* Pointer to parent node of current node. */
 	myNodePtr parent = malloc(sizeof(myNode));
 
@@ -66,15 +66,15 @@ myNodePtr create_bst()
 		scanf("%d", &key);
 
 		/* Initialize current node to head of BST. */
-		bstcurr = bsthead;
+		curr = head;
 
 		if(cnt == 0)
 		{
 			/* Store head pointer info. */
-			bsthead->key = key;
-			bsthead->parent = NULL;
-			bsthead->lchild = NULL;
-			bsthead->rchild = NULL;
+			head->key = key;
+			head->parent = NULL;
+			head->lchild = NULL;
+			head->rchild = NULL;
 		}
 		else
 		{
@@ -83,42 +83,49 @@ myNodePtr create_bst()
 			while(1)
 			{
 				/* Store parent node info. */
-				parent = bstcurr;
-				if(key <= bstcurr->key)
+				parent = curr;
+
+				if(key <= curr->key)
 				{
-					if(bstcurr->lchild != NULL)
-						bstcurr = bstcurr->lchild;
+					if(curr->lchild != NULL)
+						curr = curr->lchild;
 				}
 				else
 				{
-					if(bstcurr->rchild != NULL)
-						bstcurr = bstcurr->rchild;
+					if(curr->rchild != NULL)
+						curr = curr->rchild;
 				}
+
 				/* Break out of loop if it is end of traversal. */
-				if(parent == bstcurr)
+				if(parent == curr)
 					break;
 			}
+
 			/* Select left or right child node for inserting key. */
-			if(key <= bstcurr->key)
+			if(key <= curr->key)
 			{
-				bstcurr->lchild = malloc(sizeof(myNode));
-				bstcurr = bstcurr->lchild;
+				curr->lchild = malloc(sizeof(myNode));
+				curr = curr->lchild;
 			}
 			else
 			{
-				bstcurr->rchild = malloc(sizeof(myNode));
-				bstcurr = bstcurr->rchild;
+				curr->rchild = malloc(sizeof(myNode));
+				curr = curr->rchild;
 			}
+
 			/* Store destination node info. */
-			bstcurr->key = key;
-			bstcurr->parent = parent;
-			bstcurr->lchild = NULL;
-			bstcurr->rchild = NULL;
+			curr->key = key;
+			curr->parent = parent;
+			curr->lchild = NULL;
+			curr->rchild = NULL;
 		}
+
 		cnt++;
 	}
 
-	return bsthead;
+	/* NOTE: If local pointers are freed, then values won't be retained across
+	function calls. */
+	return head;
 }
 
 /*
@@ -130,6 +137,7 @@ myNodePtr create_bst()
 void traverse_inorder(myNodePtr bsthead)
 {
 	printf("Inorder traversal of BST.\n");
+
 	/* Error check for valid BST. */
 	if(bsthead == NULL)
 	{
@@ -139,6 +147,7 @@ void traverse_inorder(myNodePtr bsthead)
 
 	/* Traverse to node with smallest key value. */
 	myNodePtr bstcurr = bsthead;
+
 	if(bstcurr->lchild != NULL)
 	{
 		while(bstcurr->lchild != NULL)
@@ -149,10 +158,12 @@ void traverse_inorder(myNodePtr bsthead)
 	{
 		/* Display subtree to the left of root. */
 		printf("%d", bstcurr->key);
+
 		while(bstcurr->parent != NULL)
 		{
 			bstcurr = bstcurr->parent;
 			printf("\t->\t%d", bstcurr->key);
+
 			if(bstcurr->rchild != NULL)
 			{
 				printf("\t->\t%d", (bstcurr->rchild)->key);
@@ -163,9 +174,11 @@ void traverse_inorder(myNodePtr bsthead)
 	{
 		/* Display subtree to the right of root. */
 		printf("%d\t->\t", bstcurr->key);
+
 		if(bstcurr->rchild != NULL)
 		{
 			bstcurr = bstcurr->rchild;
+
 			while(1)
 			{
 				if (bstcurr->lchild == NULL && bstcurr->rchild == NULL)
@@ -194,6 +207,8 @@ void traverse_inorder(myNodePtr bsthead)
 			}
 		}
 	}
+
+	free(bstcurr);
 }
 
 int main()
@@ -212,4 +227,3 @@ int main()
 
 	return 0;
 }
-
