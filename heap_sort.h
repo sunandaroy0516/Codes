@@ -15,21 +15,14 @@
 #include <cmath>
 #include <limits>
 
+#include "error_codes.h"
+
 #define HEAP_DISPLAY_FIELDS_LENGTH	4
 #define HEAP_DISPLAY_FIELD_WIDTH	-13
 #define HEAP_MAX_ELEMENTS			20
 
 #define HeapPrintStr(value) printf("%*s", HEAP_DISPLAY_FIELD_WIDTH, value)
 #define HeapPrintNum(value) printf("%*d", HEAP_DISPLAY_FIELD_WIDTH, value)
-
-typedef enum
-{
-	ERR_OVERFLOW_OF_NUMBER_OF_ARGUMENTS = -4,
-	ERR_HEAP_UNDERFLOW = -3,
-	ERR_NULL_POINTER = -2,
-	ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS = -1,
-	SUCCESS = 0
-} ExitCode;
 
 typedef struct __HeapNode__
 {
