@@ -9,3 +9,10 @@ Math2 : Math 1, Arabic, English
 Math1 : English
 English: <>
 Arabic: <> */
+
+#ifndef __MIN_NUMBER_OF_SEMESTERS__
+#define __MIN_NUMBER_OF_SEMESTERS__
+
+#include <iostream>
+
+#endif

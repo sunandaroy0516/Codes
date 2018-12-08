@@ -9,3 +9,11 @@ Math2 : Math 1, Arabic, English
 Math1 : English
 English: <>
 Arabic: <> */
+
+#include "min_number_of_semesters.h"
+
+int main(int argc, char **argv)
+{
+	return 0;
+}
+
