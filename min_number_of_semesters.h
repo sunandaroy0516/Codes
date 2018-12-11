@@ -15,4 +15,7 @@ Arabic: <> */
 
 #include <iostream>
 
+#define MAX_LENGTH_OF_COURSE 20
+#define MAX_NUMBER_OF_PREREQUISITES 5
+
 #endif
