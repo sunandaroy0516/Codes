@@ -14,19 +14,47 @@ Arabic: <> */
 
 using namespace std;
 
+Course::Course(std::string main_course)
+{
+	add_course(main_course);
+}
+
+void Course::add_course(std::string main_course)
+{
+	main = main_course;
+}
+
+void Course::add_prerequisites(std::string preq_course)
+{
+	preqs.push_back(preq_course);
+}
+
+void Course::display_course()
+{
+	std::vector<std::string> my_preqs = preqs;
+	
+	cout << "Course: " << main << endl;
+	cout << "Prerequisites: " << endl;
+	
+	for(std::vector<std::string>::iterator it = my_preqs.begin(); it != my_preqs.end(); ++it)
+	{
+		cout << *it << endl;
+	}
+}
+
 // Usage: <executable> number_of_courses
 int main(int argc, char **argv)
 {
-	int num_of_courses, cnt, preq;
+	int num_of_courses, cnt;
 	char ch;
-	char **courses = NULL;
+	Course *my_courses = NULL;
 	
 	if(argc < 2)
 	{
 		cout << "Number of courses is missing." << endl;
 		return ERR_INSUFFICIENT_NUMBER_OF_ARGUMENTS;
 	}
-	
+
 	num_of_courses = atoi(argv[1]);
 	
 	if(num_of_courses <= 0)
@@ -35,34 +63,29 @@ int main(int argc, char **argv)
 		return ERR_INVALID_VALUE;
 	}
 	
-	*courses = (char *)malloc(number_of_courses * MAX_LENGTH_OF_COURSE * (MAX_NUMBER_OF_PREREQUISITES + 1) * sizeof(char));
-	
+	my_courses = new Course[num_of_courses];
+
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
+		std::string main_course, preq_course;
+		Course current = my_courses[cnt];
+		
 		cout << "Enter name of course: ";
-		cin >> courses[cnt][0];
+		cin >> main_course;
+		current.add_course(main_course);
 		cout << endl;
 		
-		preq = 1;
-		while(preq < MAX_NUMBER_OF_PREREQUISITES)
+		while(ch == 'y' || ch == 'Y')
 		{
 			cout << "Enter name of prerequisite: ";
-			cin >> courses[cnt][preq];
+			cin >> preq_course;
 			cout << "Do you want to enter additional prerequisites?(y/n): ";
 			cin >> ch;
-			
-			if(ch == 'y' || ch == 'Y')
-			{
-				cout << endl;
-				preq++;
-			}
-			else
-			{
-				break;
-			}
+			cout << endl;
+			current.add_prerequisites(preq_course);
 		}
 		
-		display_courses(courses);
+		current.display_course();
 	}
 	
 	return 0;

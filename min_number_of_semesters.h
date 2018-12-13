@@ -14,8 +14,28 @@ Arabic: <> */
 #define __MIN_NUMBER_OF_SEMESTERS__
 
 #include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
 
-#define MAX_LENGTH_OF_COURSE 20
-#define MAX_NUMBER_OF_PREREQUISITES 5
+#include "error_codes.h"
+
+#define MAX_NUMBER_OF_PREQUISITES 5
+
+class Course
+{
+	std::string main;
+	std::vector<std::string> preqs;
+
+	public:	
+	
+	Course(std::string);
+	
+	void add_course(std::string);
+	
+	void add_prerequisites(std::string);
+	
+	void display_course(Course *);
+};
 
 #endif
