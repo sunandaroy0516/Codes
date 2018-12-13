@@ -29,13 +29,13 @@ class Course
 
 	public:	
 	
-	Course(std::string);
+	Course() { }
 	
 	void add_course(std::string);
 	
 	void add_prerequisites(std::string);
 	
-	void display_course(Course *);
+	void display_course();
 };
 
 #endif

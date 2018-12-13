@@ -14,11 +14,6 @@ Arabic: <> */
 
 using namespace std;
 
-Course::Course(std::string main_course)
-{
-	add_course(main_course);
-}
-
 void Course::add_course(std::string main_course)
 {
 	main = main_course;
