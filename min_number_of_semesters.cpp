@@ -29,12 +29,16 @@ void Course::display_course()
 	std::vector<std::string> my_preqs = preqs;
 
 	cout << "Course: " << main << endl;
-	cout << "Prerequisites: " << endl;
-
-	for(std::vector<std::string>::iterator it = my_preqs.begin(); it != my_preqs.end(); ++it)
+	
+	if(my_preqs.size() > 0)
 	{
-		cout << *it << endl;
-	}
+		cout << "Prerequisites: " << endl;
+
+		for(std::vector<std::string>::iterator it = my_preqs.begin(); it != my_preqs.end(); ++it)
+		{
+			cout << *it << endl;
+		}
+	}	
 }
 
 // Usage: <executable> number_of_courses
@@ -60,6 +64,7 @@ int main(int argc, char **argv)
 
 	my_courses = new Course[num_of_courses];
 
+	// Get all course details along with their prerequisites.
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
 		std::string main_course, preq_course;
@@ -88,6 +93,7 @@ int main(int argc, char **argv)
 
 	cout << "Course List" << endl;
 
+	// Display all course details along with their prerequisites.
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
 		my_courses[cnt].display_course();
@@ -95,4 +101,3 @@ int main(int argc, char **argv)
 
 	return 0;
 }
-
