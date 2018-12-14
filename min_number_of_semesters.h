@@ -9,3 +9,33 @@ Math2 : Math 1, Arabic, English
 Math1 : English
 English: <>
 Arabic: <> */
+
+#ifndef __MIN_NUMBER_OF_SEMESTERS__
+#define __MIN_NUMBER_OF_SEMESTERS__
+
+#include <iostream>
+#include <cstdlib>
+#include <string>
+#include <vector>
+
+#include "error_codes.h"
+
+#define MAX_NUMBER_OF_PREQUISITES 5
+
+class Course
+{
+	std::string main;
+	std::vector<std::string> preqs;
+
+	public:	
+	
+	Course() { }
+	
+	void add_course(std::string);
+	
+	void add_prerequisites(std::string);
+	
+	void display_course();
+};
+
+#endif
