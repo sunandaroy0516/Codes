@@ -27,10 +27,10 @@ void Course::add_prerequisites(std::string preq_course)
 void Course::display_course()
 {
 	std::vector<std::string> my_preqs = preqs;
-	
+
 	cout << "Course: " << main << endl;
 	cout << "Prerequisites: " << endl;
-	
+
 	for(std::vector<std::string>::iterator it = my_preqs.begin(); it != my_preqs.end(); ++it)
 	{
 		cout << *it << endl;
@@ -43,7 +43,7 @@ int main(int argc, char **argv)
 	int num_of_courses, cnt;
 	char ch;
 	Course *my_courses = NULL;
-	
+
 	if(argc < 2)
 	{
 		cout << "Number of courses is missing." << endl;
@@ -51,25 +51,28 @@ int main(int argc, char **argv)
 	}
 
 	num_of_courses = atoi(argv[1]);
-	
+
 	if(num_of_courses <= 0)
 	{
 		cout << "Invalid number of courses." << endl;
 		return ERR_INVALID_VALUE;
 	}
-	
+
 	my_courses = new Course[num_of_courses];
 
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
 		std::string main_course, preq_course;
-		Course current = my_courses[cnt];
-		
+
 		cout << "Enter name of course: ";
 		cin >> main_course;
-		current.add_course(main_course);
+		my_courses[cnt].add_course(main_course);
 		cout << endl;
-		
+
+		cout << "Does this course require prerequisites?(y/n): ";
+		cin >> ch;
+		cout << endl;
+
 		while(ch == 'y' || ch == 'Y')
 		{
 			cout << "Enter name of prerequisite: ";
@@ -77,12 +80,19 @@ int main(int argc, char **argv)
 			cout << "Do you want to enter additional prerequisites?(y/n): ";
 			cin >> ch;
 			cout << endl;
-			current.add_prerequisites(preq_course);
+			my_courses[cnt].add_prerequisites(preq_course);
 		}
-		
-		current.display_course();
+
+		cout << endl;
 	}
-	
+
+	cout << "Course List" << endl;
+
+	for(cnt = 0; cnt < num_of_courses; cnt++)
+	{
+		my_courses[cnt].display_course();
+	}
+
 	return 0;
 }
 
