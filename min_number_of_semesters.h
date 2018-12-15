@@ -43,6 +43,8 @@ class Course
 	void add_semester(unsigned int);
 	
 	void removed_courses(std::vector<std::string> *);
+	
+	bool check_if_prerequisites_completed();
 };
 
 #endif
