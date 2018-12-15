@@ -26,6 +26,7 @@ class Course
 {
 	std::string main;
 	std::vector<std::string> preqs;
+	unsigned int semester;
 
 	public:	
 	
@@ -36,6 +37,12 @@ class Course
 	void add_prerequisites(std::string);
 	
 	void display_course();
+	
+	bool contains_prerequisites();
+	
+	void add_semester(unsigned int);
+	
+	void removed_courses(std::vector<std::string> *);
 };
 
 #endif

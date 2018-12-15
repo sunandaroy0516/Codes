@@ -26,27 +26,50 @@ void Course::add_prerequisites(std::string preq_course)
 
 void Course::display_course()
 {
-	std::vector<std::string> my_preqs = preqs;
-
 	cout << "Course: " << main << endl;
 	
-	if(my_preqs.size() > 0)
+	if(preqs.size() > 0)
 	{
 		cout << "Prerequisites: " << endl;
 
-		for(std::vector<std::string>::iterator it = my_preqs.begin(); it != my_preqs.end(); ++it)
+		for(std::vector<std::string>::iterator it = preqs.begin(); it != preqs.end(); ++it)
 		{
 			cout << *it << endl;
 		}
 	}	
 }
 
+bool Course::contains_prerequisites()
+{
+	bool result = false;
+	
+	if (preqs.size() > 0)
+	{
+		result = true;
+	}
+	
+	return result;
+}
+
+void Course::add_semester(unsigned int sem)
+{
+	semester = sem;
+}
+
+void Course::removed_courses(std::vector<std::string> *removed)
+{
+	(*removed).push_back(main);
+}
+
 // Usage: <executable> number_of_courses
 int main(int argc, char **argv)
 {
-	int num_of_courses, cnt;
+	unsigned int cnt, sem_cnt;
+	int num_of_courses;
 	char ch;
 	Course *my_courses = NULL;
+	std::vector<std::string> rem_courses;
+	sem_cnt = 1;
 
 	if(argc < 2)
 	{
@@ -91,12 +114,31 @@ int main(int argc, char **argv)
 		cout << endl;
 	}
 
-	cout << "Course List" << endl;
-
 	// Display all course details along with their prerequisites.
+	/*cout << "Course List" << endl;
+	
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
 		my_courses[cnt].display_course();
+	}*/
+	
+	for(cnt = 0; cnt < num_of_courses; cnt++)
+	{
+		Course current = my_courses[cnt];
+		
+		if(current.contains_prerequisites() == 0)
+		{
+			current.add_semester(sem_cnt);
+			current.removed_courses(&rem_courses);
+		}
+	}
+
+	// Display courses with no prerequisites.
+	cout << "Courses in semester " << sem_cnt << endl;
+	
+	for(std::vector<std::string>::iterator it = rem_courses.begin(); it != rem_courses.end(); ++it)
+	{
+		cout << *it << endl;
 	}
 
 	return 0;
