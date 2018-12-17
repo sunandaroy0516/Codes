@@ -29,19 +29,22 @@ void Course::add_prerequisites(std::string preq_course)
 
 void Course::display_course()
 {
-	cout << "Course: " << main << endl;
-
-	if(preqs.size() > 0)
+	if(semester)
 	{
-		cout << "Prerequisites: " << endl;
+		cout << "Course: " << main << endl;
 
-		for(std::vector<std::string>::iterator it = preqs.begin(); it != preqs.end(); ++it)
+		if(preqs.size() > 0)
 		{
-			cout << *it << endl;
+			cout << "Prerequisites: " << endl;
+
+			for(std::vector<std::string>::iterator it = preqs.begin(); it != preqs.end(); ++it)
+			{
+				cout << *it << endl;
+			}
 		}
+
+		cout << "Semester: " << semester << endl;
 	}
-	
-	cout << "Semester: " << semester << endl;
 }
 
 bool Course::contains_prerequisites()
@@ -69,7 +72,7 @@ void Course::removed_courses(std::vector<std::string> *removed)
 bool Course::check_if_prerequisites_completed()
 {
 	bool all_preqs_done = true;
-	
+
 	if(preqs.size() == 0)
 	{
 		all_preqs_done = false;
@@ -112,7 +115,7 @@ int main(int argc, char **argv)
 	int num_of_courses;
 	char ch;
 	Course *my_courses = NULL;
-	Course current;	
+	Course current;
 
 	if(argc < 2)
 	{
@@ -162,37 +165,40 @@ int main(int argc, char **argv)
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
 		if(!my_courses[cnt].contains_prerequisites())
-		{			
+		{
 			my_courses[cnt].add_semester(sem_cnt);
-			my_courses[cnt].removed_courses(&rem_courses);			
+			my_courses[cnt].removed_courses(&rem_courses);
 		}
 	}
 
 	while(1)
 	{
 		sem_cnt++;
-		
+
 		for(cnt = 0; cnt < num_of_courses; cnt++)
-		{			
+		{
 			if(!my_courses[cnt].check_if_completed())
-			{	
+			{
 				bool all_preqs_done = my_courses[cnt].check_if_prerequisites_completed();
 
 				if(all_preqs_done)
-				{			
+				{
 					my_courses[cnt].add_semester(sem_cnt);
-					my_courses[cnt].removed_courses(&rem_courses);			
+					my_courses[cnt].removed_courses(&rem_courses);
 				}
-					
-				my_courses[cnt].display_course();
-				cout << endl;
 			}
 		}
-			
+
 		if(rem_courses.size() == num_of_courses)
 		{
 			break;
 		}
+	}
+
+	for(cnt = 0; cnt < num_of_courses; cnt++)
+	{
+		my_courses[cnt].display_course();
+		cout << endl;
 	}
 
 	return 0;
