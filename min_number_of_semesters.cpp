@@ -76,25 +76,25 @@ bool Course::check_if_prerequisites_completed()
 	}
 	else
 	{
-	for(std::vector<std::string>::iterator it = preqs.begin(); it != preqs.end(); ++it)
-	{
-		bool preq_done = false;
-
-		for(std::vector<std::string>::iterator it1 = rem_courses.begin(); it1 != rem_courses.end(); ++it1)
+		for(std::vector<std::string>::iterator it = preqs.begin(); it != preqs.end(); ++it)
 		{
-			if(*it == *it1)
+			bool preq_done = false;
+
+			for(std::vector<std::string>::iterator it1 = rem_courses.begin(); it1 != rem_courses.end(); ++it1)
 			{
-				preq_done = true;
+				if(*it == *it1)
+				{
+					preq_done = true;
+					break;
+				}
+			}
+
+			if(!preq_done)
+			{
+				all_preqs_done = false;
 				break;
 			}
 		}
-
-		if(!preq_done)
-		{
-			all_preqs_done = false;
-			break;
-		}
-	}
 	}
 
 	return all_preqs_done;
@@ -168,26 +168,31 @@ int main(int argc, char **argv)
 		}
 	}
 
-	while(rem_courses.size() <= num_of_courses)
+	while(1)
 	{
-	sem_cnt++;
-	for(cnt = 0; cnt < num_of_courses; cnt++)
-	{
-		cout<<"dbg: "<<my_courses[cnt].check_if_completed()<<endl;
-		if(!my_courses[cnt].check_if_completed())
-		{	
-		bool all_preqs_done = my_courses[cnt].check_if_prerequisites_completed();
-
-		if(all_preqs_done)
+		sem_cnt++;
+		
+		for(cnt = 0; cnt < num_of_courses; cnt++)
 		{			
-			my_courses[cnt].add_semester(sem_cnt);
-			my_courses[cnt].removed_courses(&rem_courses);					
+			if(!my_courses[cnt].check_if_completed())
+			{	
+				bool all_preqs_done = my_courses[cnt].check_if_prerequisites_completed();
+
+				if(all_preqs_done)
+				{			
+					my_courses[cnt].add_semester(sem_cnt);
+					my_courses[cnt].removed_courses(&rem_courses);			
+				}
+					
+				my_courses[cnt].display_course();
+				cout << endl;
+			}
 		}
 			
-		my_courses[cnt].display_course();
-		cout << endl;
+		if(rem_courses.size() == num_of_courses)
+		{
+			break;
 		}
-	}
 	}
 
 	return 0;
