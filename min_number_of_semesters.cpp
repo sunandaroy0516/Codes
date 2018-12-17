@@ -100,6 +100,11 @@ bool Course::check_if_prerequisites_completed()
 	return all_preqs_done;
 }
 
+bool Course::check_if_completed()
+{
+	return semester;
+}
+
 // Usage: <executable> number_of_courses
 int main(int argc, char **argv)
 {
@@ -153,32 +158,36 @@ int main(int argc, char **argv)
 	}
 
 	// Display all course details along with their prerequisites.
+	sem_cnt++;
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
-		current = my_courses[cnt];
-
-		if(current.contains_prerequisites() == 0)
-		{
-			sem_cnt++;
-			current.add_semester(sem_cnt);
-			current.removed_courses(&rem_courses);			
+		if(!my_courses[cnt].contains_prerequisites())
+		{			
+			my_courses[cnt].add_semester(sem_cnt);
+			my_courses[cnt].removed_courses(&rem_courses);			
 		}
 	}
 
+	while(rem_courses.size() <= num_of_courses)
+	{
+	sem_cnt++;
 	for(cnt = 0; cnt < num_of_courses; cnt++)
 	{
-		current = my_courses[cnt];			
-		bool all_preqs_done = current.check_if_prerequisites_completed();
+		cout<<"dbg: "<<my_courses[cnt].check_if_completed()<<endl;
+		if(!my_courses[cnt].check_if_completed())
+		{	
+		bool all_preqs_done = my_courses[cnt].check_if_prerequisites_completed();
 
 		if(all_preqs_done)
-		{
-			sem_cnt++;
-			current.add_semester(sem_cnt);
-			current.removed_courses(&rem_courses);					
+		{			
+			my_courses[cnt].add_semester(sem_cnt);
+			my_courses[cnt].removed_courses(&rem_courses);					
 		}
 			
-		current.display_course();
+		my_courses[cnt].display_course();
 		cout << endl;
+		}
+	}
 	}
 
 	return 0;

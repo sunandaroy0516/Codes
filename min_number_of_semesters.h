@@ -45,6 +45,8 @@ class Course
 	void removed_courses(std::vector<std::string> *);
 	
 	bool check_if_prerequisites_completed();
+	
+	bool check_if_completed();
 };
 
 #endif
