@@ -19,7 +19,7 @@ class Node
 	
 public:
 
-	void display_tree(Node *);
+	void display_tree();
 	Node * search_key(int);
 	Node * insert_key(int, Node *);
 	void update_value(int, Node *, std::string);

@@ -55,6 +55,11 @@ Node* Node::insert_key(int num, Node *head)
 	}
 }
 
+void Node::display_tree()
+{
+	
+}
+
 // Usage: <executable> [list of keys]
 int main(int argc, char **argv)
 {
@@ -83,6 +88,8 @@ int main(int argc, char **argv)
 	{
 		btree[i].insert_key(keys[i], head);
 	}
+	
+	head->display_tree();
 	
 	delete btree;
 	free(keys);
