@@ -3,10 +3,17 @@
 #ifndef __BINARY_SEARCH_TREE__
 #define __BINARY_SEARCH_TREE__
 
+#include <iostream>
+#include <cstdlib>
+#include <vector>
+#include <string>
+
+#include "error_codes.h"
+
 class Node
 {
 	int key;
-	std::vector<std::string>;
+	std::vector<std::string> value;
 	Node *left;
 	Node *right;
 	
@@ -18,5 +25,6 @@ public:
 	void update_value(int, Node *, std::string);
 	Node * get_head();
 	Node * get_tail();
+};
 
 #endif
