@@ -24,7 +24,6 @@ public:
 	Node * insert_key(int, Node *);
 	void update_value(int, Node *, std::string);
 	Node * get_head();
-	Node * get_tail();
 };
 
 #endif
