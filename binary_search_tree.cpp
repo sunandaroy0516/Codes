@@ -4,58 +4,59 @@
 
 using namespace std;
 
-Node* Node::insert_key(int num, Node *head)
+static void Node::insert_key(int num, Node *head)
 {
 	Node *current = NULL;
 	
 	if(head == NULL)
 	{
-		key = num;
-		left = NULL;
-		right = NULL;
-		head = this;
-		current = this;
+		head->key = num;
+		head->left = NULL;
+		head->right = NULL;
 	}
 	else
 	{
-		if(num == key)
+		if(num == head->key)
 		{
-			current = head;
+			cout << "Key exists already!" << endl;
 		}
 		else if(num < key)
 		{
-			if(left == NULL)
+			if(head->left == NULL)
 			{
-				left = new Node;
-				left->key = num;
-				left->left = NULL;
-				left->right = NULL;
-				current = left;
+				head->left = new Node;
+				head->left->key = num;
+				head->left->left = NULL;
+				head->left->right = NULL;
 			}
 			else
 			{
-				current = insert_key(num, left);
+				Node::insert_key(num, head->left);
 			}
 		}
 		else
 		{			
-			if(right == NULL)
+			if(head->right == NULL)
 			{
-				right = new Node;
-				right->key = num;
-				right->left = NULL;
-				right->right = NULL;
-				current = right;
+				head->right = new Node;
+				head->right->key = num;
+				head->right->left = NULL;
+				head->right->right = NULL;				
 			}
 			else
 			{
-				current = insert_key(num, right);
+				Node::insert_key(num, head->right);
 			}
 		}
 	}
+	cout<<"key: "<<head->key;
+	if(head->left != NULL)
+		cout<<", left: "<<head->left->key;
+	if(head->right != NULL)
+		cout<<", right: "<<head->right->key<<endl;
 }
 
-void Node::display_tree()
+static void Node::display_tree(Node *root)
 {
 	
 }
@@ -66,7 +67,6 @@ int main(int argc, char **argv)
 	int i;
 	unsigned int keys_cnt;
 	int *keys = NULL;
-	Node *head = NULL;	
 	Node *btree = NULL;
 	
 	if(argc < 2)
@@ -86,10 +86,10 @@ int main(int argc, char **argv)
 	
 	for(i = 0; i < keys_cnt; i++)
 	{
-		btree[i].insert_key(keys[i], head);
+		Node::insert_key(keys[i], btree);
 	}
 	
-	head->display_tree();
+	Node::display_tree(btree);
 	
 	delete btree;
 	free(keys);

@@ -19,9 +19,9 @@ class Node
 	
 public:
 
-	void display_tree();
+	static void display_tree(Node *);
 	Node * search_key(int);
-	Node * insert_key(int, Node *);
+	static void insert_key(int, Node *);
 	void update_value(int, Node *, std::string);
 	Node * get_head();
 };
