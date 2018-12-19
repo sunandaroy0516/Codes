@@ -4,56 +4,37 @@
 
 using namespace std;
 
+unsigned int Node::key_index;
+
 void Node::insert_key(int num, Node *head)
 {
-	Node *current = NULL;
-	
-	if(head == NULL)
+	if(!key_index)
 	{
 		head->key = num;
 		head->left = NULL;
 		head->right = NULL;
+		key_index++;
+	}
+	else if(num == head->key)
+	{
+		cout << "Key exists already!" << endl;
+	}
+	else if(num < head->key)
+	{
+		head->left = new Node;
+		head->left->key = num;
+		head->left->left = NULL;
+		head->left->right = NULL;
+		key_index++;
 	}
 	else
-	{
-		if(num == head->key)
-		{
-			cout << "Key exists already!" << endl;
-		}
-		else if(num < head->key)
-		{
-			if(head->left == NULL)
-			{
-				head->left = new Node;
-				head->left->key = num;
-				head->left->left = NULL;
-				head->left->right = NULL;
-			}
-			else
-			{
-				Node::insert_key(num, head->left);
-			}
-		}
-		else
-		{			
-			if(head->right == NULL)
-			{
-				head->right = new Node;
-				head->right->key = num;
-				head->right->left = NULL;
-				head->right->right = NULL;				
-			}
-			else
-			{
-				Node::insert_key(num, head->right);
-			}
-		}
+	{			
+		head->right = new Node;
+		head->right->key = num;
+		head->right->left = NULL;
+		head->right->right = NULL;
+		key_index++;
 	}
-	cout<<"key: "<<head->key;
-	if(head->left != NULL)
-		cout<<", left: "<<head->left->key;
-	if(head->right != NULL)
-		cout<<", right: "<<head->right->key<<endl;
 }
 
 void Node::display_tree(Node *root)
@@ -82,7 +63,7 @@ int main(int argc, char **argv)
 		keys[i] = atoi(argv[i + 1]);
 	}
 	
-	btree = new Node[keys_cnt];
+	btree = new Node;
 	
 	for(i = 0; i < keys_cnt; i++)
 	{

@@ -15,9 +15,10 @@ class Node
 	int key;
 	std::vector<std::string> value;
 	Node *left;
-	Node *right;
+	Node *right;	
 	
 public:
+	static unsigned int key_index;
 
 	static void display_tree(Node *);
 	Node * search_key(int);
