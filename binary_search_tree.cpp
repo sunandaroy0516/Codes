@@ -35,7 +35,6 @@ void Node::insert_key(int num, Node *head)
 	}
 	
 	key_index++;
-	head->index = key_index;
 }
 
 void Node::display_tree(Node *root)
@@ -46,6 +45,8 @@ void Node::display_tree(Node *root)
 	}	
 	else
 	{
+		cout << "Key\tLeft Key\tRight Key" << endl;		
+		cout << root->key << "\t" << root->left->key << "\t" << root->right->key << endl;
 	}
 }
 

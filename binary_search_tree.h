@@ -16,7 +16,6 @@ class Node
 	std::vector<std::string> value;
 	Node *left;
 	Node *right;
-	unsigned int index;
 	
 public:
 	static unsigned int key_index;
