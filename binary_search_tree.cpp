@@ -4,7 +4,7 @@
 
 using namespace std;
 
-static void Node::insert_key(int num, Node *head)
+void Node::insert_key(int num, Node *head)
 {
 	Node *current = NULL;
 	
@@ -20,7 +20,7 @@ static void Node::insert_key(int num, Node *head)
 		{
 			cout << "Key exists already!" << endl;
 		}
-		else if(num < key)
+		else if(num < head->key)
 		{
 			if(head->left == NULL)
 			{
@@ -56,7 +56,7 @@ static void Node::insert_key(int num, Node *head)
 		cout<<", right: "<<head->right->key<<endl;
 }
 
-static void Node::display_tree(Node *root)
+void Node::display_tree(Node *root)
 {
 	
 }
