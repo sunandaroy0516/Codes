@@ -12,12 +12,12 @@ void Node::insert_key(int num, Node *head)
 	{
 		head->key = num;
 		head->left = NULL;
-		head->right = NULL;
-		key_index++;
+		head->right = NULL;	
 	}
 	else if(num == head->key)
 	{
 		cout << "Key exists already!" << endl;
+		return;
 	}
 	else if(num < head->key)
 	{
@@ -25,21 +25,28 @@ void Node::insert_key(int num, Node *head)
 		head->left->key = num;
 		head->left->left = NULL;
 		head->left->right = NULL;
-		key_index++;
 	}
 	else
 	{			
 		head->right = new Node;
 		head->right->key = num;
 		head->right->left = NULL;
-		head->right->right = NULL;
-		key_index++;
+		head->right->right = NULL;		
 	}
+	
+	key_index++;
+	head->index = key_index;
 }
 
 void Node::display_tree(Node *root)
 {
-	
+	if(!key_index)
+	{
+		cout << "Binary search tree is empty" << endl;
+	}	
+	else
+	{
+	}
 }
 
 // Usage: <executable> [list of keys]
