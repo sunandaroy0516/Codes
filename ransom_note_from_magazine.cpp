@@ -203,7 +203,7 @@ int main(int argc, char **argv)
 	display_phrase(p_ran);
 	
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
-	construct_phrase(argv[2], p_mag);	
+	construct_phrase(argv[2], p_mag); //todo: check parsing of special characters.	
 	cout << "Magazine: " << endl;
 	display_phrase(p_mag);
 	
