@@ -11,6 +11,8 @@ can be formed from a given magazine (string)? */
 #include <string>
 #include <cstdio>
 #include <map>
+#include <cstdlib>
+
 #include "error_codes.h"
 
 #define MAX_ARRAY_SIZE	100

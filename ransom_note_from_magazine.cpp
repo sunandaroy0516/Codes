@@ -23,6 +23,7 @@ void construct_phrase(char *text_file, Phrase *p_txt)
 	FILE *fp = std::fopen(text_file, "r");
 	char_count = 0;
 	
+	// Get the number of characters in text_file.
 	while ((c = fgetc(fp)) != EOF)
 	{
 		para[char_count] = c;
@@ -39,21 +40,25 @@ void construct_phrase(char *text_file, Phrase *p_txt)
 	word_count = 0;
 	i = 0;
 	
+	// Extract array of words from list of characters.
 	while (i < char_count)
 	{
 		current = i;
 		word_size = 0;
 		
+		// Get size of current word.
 		while (!isspace(para[i]) && i < char_count)
 		{		
 			word_size++;
 			i++;
 		}
 
+		// Reset start position of reading characters to old value.
 		word = static_cast<char *>(malloc(word_size * sizeof(char)));
 		i = current;
 		j = 0;
-		
+
+		// Extract characters of current word.
 		while (j < word_size)
 		{
 			word[j] = para[i];	
@@ -61,23 +66,26 @@ void construct_phrase(char *text_file, Phrase *p_txt)
 			j++;
 		}		
 		
+		// Copy current word into string member of Phrase object.
 		p_txt->word[word_count] = word;
 		word_count++;		
 		i++;
 	}
 	
+	// Update current number of extracted words in Phrase object.
 	p_txt->word_count = word_count;
 }
 
 void display_phrase(Phrase *p_txt)
 {
+	// Print list of all words and total word count.
 	for (size_t i = 0; i < p_txt->word_count; i++)
 		cout << p_txt->word[i] << endl;
 	
 	cout << "WORD COUNT: " << p_txt->word_count << endl;
 }
 
-void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
+/*void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 {
 	bool wfound;
 	unsigned int i, j, wc1, wc2, cnt, c1, c2;
@@ -128,10 +136,10 @@ void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 		map2[word] = cnt;
 	}
 	
-	/* cout << "Key: " << "Value" << endl;
+	cout << "Key: " << "Value" << endl;
 	
 	for (auto it = map2.begin(); it != map2.end(); it++)
-		cout << it->first << ": " << it->second << endl; */
+		cout << it->first << ": " << it->second << endl;
 	
 	if (wc1 < wc2)
 	{
@@ -175,7 +183,7 @@ void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 				cout << "String 2 can be formed from String 1." << endl;
 		}
 	}
-} 
+}*/
 
 // Usage: <executable> ransom.txt magazine.txt
 int main(int argc, char **argv)
@@ -191,14 +199,15 @@ int main(int argc, char **argv)
 	
 	p_ran = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	construct_phrase(argv[1], p_ran);
-
+	cout << "Ransom: " << endl;
+	display_phrase(p_ran);
 	
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
-	construct_phrase(argv[2], p_mag);
+	construct_phrase(argv[2], p_mag);	
+	cout << "Magazine: " << endl;
+	display_phrase(p_mag);
 	
-	//display_phrase(p_mag);
-	
-	compare_phrases(p_ran, p_mag);
+	//compare_phrases(p_ran, p_mag);
 	
 	return SUCCESS;
 }
