@@ -127,7 +127,8 @@ void Sort::merge(int list[])
 	Sort::merge_recursive(list, right_lb, cnt - 1, sorted_list); 
 	 
 	clock_t duration = (clock() - start) / CLOCKS_PER_SEC;
-	cout << "Duration(ms): " << duration * 1000 << endl;	
+	cout << "Duration(ms): " << duration * 1000 << endl;
+	delete sorted_list;
 }
  
  
@@ -162,6 +163,8 @@ int main()
 	Sort::merge(list);
 	
 	Sort::display(list);
+	
+	delete list;
 	
 	return 0;
 }
