@@ -206,6 +206,8 @@ int main(int argc, char **argv)
 		my_courses[cnt].display_course();
 		cout << endl;
 	}
+	
+	delete my_courses;
 
 	return SUCCESS;
 }
