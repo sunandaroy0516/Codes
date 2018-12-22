@@ -6,8 +6,8 @@ can be formed from a given magazine (string)? */
 #define __RANSOM_NOTE_FROM_MAGAZINE__
 
 #include <iostream>
-#include <ctype.h>
-#include <string.h>
+#include <cctype>
+#include <cstring>
 #include <string>
 #include <cstdio>
 #include <map>
@@ -15,12 +15,12 @@ can be formed from a given magazine (string)? */
 
 #include "error_codes.h"
 
-#define MAX_ARRAY_SIZE	100
-#define MAX_WORD_COUNT	20
+#define MAX_WORD_SIZE	50
+#define MAX_WORD_COUNT	50
 
 typedef struct __PHRASE__
 {
-	std::string word[MAX_WORD_COUNT];
+	char word[MAX_WORD_COUNT][MAX_WORD_SIZE];
 	unsigned int word_count;
 } Phrase;
 

@@ -19,7 +19,7 @@ void construct_phrase(char *text_file, Phrase *p_txt)
 		return;
 	}
 
-	para = static_cast<char *>(malloc(MAX_ARRAY_SIZE * sizeof(char)));
+	para = static_cast<char *>(malloc(MAX_WORD_SIZE * MAX_WORD_COUNT * sizeof(char)));
 	FILE *fp = std::fopen(text_file, "r");
 	char_count = 0;
 	
@@ -47,28 +47,22 @@ void construct_phrase(char *text_file, Phrase *p_txt)
 		word_size = 0;
 		
 		// Get size of current word.
-		while (!isspace(para[i]) && i < char_count)
+		while (!isspace(para[i]))
 		{		
 			word_size++;
 			i++;
 		}
 
-		// Reset start position of reading characters to old value.
-		word = static_cast<char *>(malloc(word_size * sizeof(char)));
-		i = current;
-		j = 0;
-
-		// Extract characters of current word.
-		while (j < word_size)
+		if (word_size > 0)
 		{
-			word[j] = para[i];	
-			i++;
-			j++;
+			// Reset start position of reading characters to old value.
+			word = static_cast<char *>(malloc(word_size * sizeof(char)));
+			// Extract current word.
+			strncpy(word, &para[current], word_size);		
+			// Copy current word into string member of Phrase object.
+			strcpy(p_txt->word[word_count], word);
+			word_count++;
 		}		
-		
-		// Copy current word into string member of Phrase object.
-		p_txt->word[word_count] = word;
-		word_count++;		
 		i++;
 	}
 	
@@ -198,13 +192,13 @@ int main(int argc, char **argv)
 	}
 	
 	p_ran = static_cast<Phrase *>(malloc(sizeof(Phrase)));
-	construct_phrase(argv[1], p_ran);
 	cout << "Ransom: " << endl;
+	construct_phrase(argv[1], p_ran);	
 	display_phrase(p_ran);
 	
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
-	construct_phrase(argv[2], p_mag); //todo: check parsing of special characters.	
 	cout << "Magazine: " << endl;
+	construct_phrase(argv[2], p_mag); //todo: check parsing of special characters.	
 	display_phrase(p_mag);
 	
 	//compare_phrases(p_ran, p_mag);
