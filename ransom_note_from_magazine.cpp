@@ -79,6 +79,10 @@ void display_phrase(Phrase *p_txt)
 	cout << "WORD COUNT: " << p_txt->word_count << endl;
 }
 
+void display_frequency(Phrase *p_txt)
+{
+}
+
 /*void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 {
 	bool wfound;
@@ -195,11 +199,13 @@ int main(int argc, char **argv)
 	cout << "Ransom: " << endl;
 	construct_phrase(argv[1], p_ran);	
 	display_phrase(p_ran);
+	display_frequency(p_ran);
 	
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	cout << "Magazine: " << endl;
 	construct_phrase(argv[2], p_mag); //todo: check parsing of special characters.	
 	display_phrase(p_mag);
+	display_frequency(p_mag);
 	
 	//compare_phrases(p_ran, p_mag);
 	

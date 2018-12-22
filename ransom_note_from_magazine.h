@@ -44,5 +44,11 @@ Returns	:	None
  */
 void compare_phrases(Phrase *, Phrase *);
 
+/* 
+Input	:	Pointer to a Phrase object
+Returns	:	None
+ */
+void display_frequency(Phrase *);
+
 #endif
 
