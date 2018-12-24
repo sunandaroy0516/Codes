@@ -82,6 +82,43 @@ void display_phrase(Phrase *p_txt)
 
 void display_frequency(Phrase *p_txt)
 {
+	bool wfound;
+	unsigned int i, j, wcnt, wc2, cnt, c1, c2;
+	std::map<std::string, unsigned int> fmap;
+	std::string word;
+
+	if (p_txt == NULL)
+	{
+		cerr << "Pointer cannot be NULL." << endl;
+		return;
+	}
+
+	wcnt = p_txt->word_count;
+
+	if (wcnt == 0)
+	{
+		cerr << "Word count cannot be 0." << endl;
+		return;
+	}
+
+	for (i = 0; i < wcnt; i++)
+	{
+		cnt = 0;
+		word = p_txt->word[i];
+
+		for (j = i; j < wcnt; j++)
+		{
+			if (word == p_txt->word[j])
+				cnt++;
+		}
+		cout<<"dbg: word "<<word<<", cnt "<<cnt<<endl;
+		fmap[word] = cnt; //todo: store first cnt only
+	}
+
+	cout << "Key\t" << "Value" << endl;
+
+	for (std::map<std::string, unsigned int>::iterator it = fmap.begin(); it != fmap.end(); ++it)
+		cout << it->first << "\t" << it->second << endl;	
 }
 
 /*void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
@@ -199,13 +236,13 @@ int main(int argc, char **argv)
 	p_ran = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	cout << "Ransom: " << endl;
 	construct_phrase(argv[1], p_ran);
-	display_phrase(p_ran);
-	display_frequency(p_ran);
+	//display_phrase(p_ran);
+	//display_frequency(p_ran);
 
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	cout << "Magazine: " << endl;
-	construct_phrase(argv[2], p_mag); //todo: check parsing of special characters.
-	display_phrase(p_mag);
+	construct_phrase(argv[2], p_mag);
+	//display_phrase(p_mag);
 	display_frequency(p_mag);
 
 	//compare_phrases(p_ran, p_mag);
