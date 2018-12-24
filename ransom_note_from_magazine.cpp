@@ -102,17 +102,20 @@ void display_frequency(Phrase *p_txt)
 	}
 
 	for (i = 0; i < wcnt; i++)
-	{
-		cnt = 0;
-		word = p_txt->word[i];
-
-		for (j = i; j < wcnt; j++)
+	{		
+		if (fmap.find(p_txt->word[i]) == fmap.end())
 		{
-			if (word == p_txt->word[j])
-				cnt++;
+			word = p_txt->word[i];
+			cnt = 0;
+			
+			for (j = i; j < wcnt; j++)
+			{
+				if (word == p_txt->word[j])
+					cnt++;
+			}
+
+			fmap[word] = cnt;
 		}
-		cout<<"dbg: word "<<word<<", cnt "<<cnt<<endl;
-		fmap[word] = cnt; //todo: store first cnt only
 	}
 
 	cout << "Key\t" << "Value" << endl;
