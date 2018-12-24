@@ -82,9 +82,9 @@ void display_phrase(Phrase *p_txt)
 
 void display_frequency(Phrase *p_txt)
 {
+	std::map<std::string, unsigned int> fmap;
 	bool wfound;
 	unsigned int i, j, wcnt, wc2, cnt, c1, c2;
-	std::map<std::string, unsigned int> fmap;
 	std::string word;
 
 	if (p_txt == NULL)
@@ -102,12 +102,12 @@ void display_frequency(Phrase *p_txt)
 	}
 
 	for (i = 0; i < wcnt; i++)
-	{		
+	{
 		if (fmap.find(p_txt->word[i]) == fmap.end())
 		{
 			word = p_txt->word[i];
 			cnt = 0;
-			
+
 			for (j = i; j < wcnt; j++)
 			{
 				if (word == p_txt->word[j])
@@ -121,66 +121,12 @@ void display_frequency(Phrase *p_txt)
 	cout << "Key\t" << "Value" << endl;
 
 	for (std::map<std::string, unsigned int>::iterator it = fmap.begin(); it != fmap.end(); ++it)
-		cout << it->first << "\t" << it->second << endl;	
+		cout << it->first << "\t" << it->second << endl;
 }
 
-/*void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
+void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 {
-	bool wfound;
-	unsigned int i, j, wc1, wc2, cnt, c1, c2;
-	std::map<std::string, int> map1;
-	std::map<std::string, int> map2;
-	std::string word, w1, w2;
-
-	if (p1_txt == NULL || p2_txt == NULL)
-	{
-		cerr << "Pointer cannot be NULL." << endl;
-		return;
-	}
-
-	wc1 = p1_txt->word_count;
-	wc2 = p2_txt->word_count;
-
-	if (wc1 == 0 || wc2 == 0)
-	{
-		cerr << "Word count cannot be 0." << endl;
-		return;
-	}
-
-	for (i = 0; i < wc1; i++)
-	{
-		cnt = 0;
-		word = p1_txt->word[i];
-
-		for (j = i; j < wc1; j++)
-		{
-			if (word == p1_txt->word[j])
-				cnt++;
-		}
-
-		map1[word] = cnt;
-	}
-
-	for (i = 0; i < wc2; i++)
-	{
-		cnt = 0;
-		word = p2_txt->word[i];
-
-		for (j = i; j < wc2; j++)
-		{
-			if (word == p2_txt->word[j])
-				cnt++;
-		}
-
-		map2[word] = cnt;
-	}
-
-	cout << "Key: " << "Value" << endl;
-
-	for (auto it = map2.begin(); it != map2.end(); it++)
-		cout << it->first << ": " << it->second << endl;
-
-	if (wc1 < wc2)
+/* 	if (wc1 < wc2)
 	{
 		wfound == true;
 		for (auto it1 = map1.begin(); it1 != map1.end(); it1++)
@@ -221,8 +167,8 @@ void display_frequency(Phrase *p_txt)
 			if (wfound == true)
 				cout << "String 2 can be formed from String 1." << endl;
 		}
-	}
-}*/
+	} */
+}
 
 // Usage: <executable> ransom.txt magazine.txt
 int main(int argc, char **argv)
@@ -240,7 +186,7 @@ int main(int argc, char **argv)
 	cout << "Ransom: " << endl;
 	construct_phrase(argv[1], p_ran);
 	//display_phrase(p_ran);
-	//display_frequency(p_ran);
+	display_frequency(p_ran);
 
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	cout << "Magazine: " << endl;
