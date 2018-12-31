@@ -124,9 +124,52 @@ void display_frequency(Phrase *p_txt)
 		cout << it->first << "\t" << it->second << endl;
 }
 
+/*
 void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 {
-/* 	if (wc1 < wc2)
+	std::map<std::string, unsigned int> fmap1;
+	std::map<std::string, unsigned int> fmap2;
+	bool wfound;
+	unsigned int i, j, wcnt1, wcnt2, cnt, c1, c2;
+	std::string word;
+
+	if (p1_txt == NULL || p2_txt == NULL)
+	{
+		cerr << "Pointer cannot be NULL." << endl;
+		return;
+	}
+
+	wcnt1 = p1_txt->word_count;
+	wcnt2 = p2_txt->word_count;
+
+	if (wcnt1 == 0 || wcnt2 == 0)
+	{
+		cerr << "Word count cannot be 0." << endl;
+		return;
+	}
+
+	for (i = 0; i < wcnt1; i++)
+	{
+		if (fmap1.find(p1_txt->word[i]) == fmap1.end())
+		{
+			word = p1_txt->word[i];
+			cnt = 0;
+
+			for (j = i; j < wcnt1; j++)
+			{
+				if (word == p1_txt->word[j])
+					cnt++;
+			}
+
+			fmap1[word] = cnt;
+		}
+	}
+
+	cout << "Key\t" << "Value" << endl;
+
+	for (std::map<std::string, unsigned int>::iterator it = fmap.begin(); it != fmap.end(); ++it)
+		cout << it->first << "\t" << it->second << endl;
+ 	if (wc1 < wc2)
 	{
 		wfound == true;
 		for (auto it1 = map1.begin(); it1 != map1.end(); it1++)
@@ -167,8 +210,9 @@ void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 			if (wfound == true)
 				cout << "String 2 can be formed from String 1." << endl;
 		}
-	} */
+	}
 }
+*/
 
 // Usage: <executable> ransom.txt magazine.txt
 int main(int argc, char **argv)
