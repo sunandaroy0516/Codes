@@ -124,7 +124,7 @@ void display_frequency(Phrase *p_txt)
 		cout << it->first << "\t" << it->second << endl;
 }
 
-/*
+
 void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 {
 	std::map<std::string, unsigned int> fmap1;
@@ -165,11 +165,33 @@ void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 		}
 	}
 
-	cout << "Key\t" << "Value" << endl;
+	cout << "Phrase 1:\nKey\t" << "Value" << endl;
 
-	for (std::map<std::string, unsigned int>::iterator it = fmap.begin(); it != fmap.end(); ++it)
+	for (std::map<std::string, unsigned int>::iterator it = fmap1.begin(); it != fmap1.end(); ++it)
 		cout << it->first << "\t" << it->second << endl;
- 	if (wc1 < wc2)
+	
+	for (i = 0; i < wcnt2; i++)
+	{
+		if (fmap2.find(p2_txt->word[i]) == fmap2.end())
+		{
+			word = p2_txt->word[i];
+			cnt = 0;
+
+			for (j = i; j < wcnt2; j++)
+			{
+				if (word == p2_txt->word[j])
+					cnt++;
+			}
+
+			fmap2[word] = cnt;
+		}
+	}
+
+	cout << "Phrase 2:\nKey\t" << "Value" << endl;
+
+	for (std::map<std::string, unsigned int>::iterator it = fmap2.begin(); it != fmap2.end(); ++it)
+		cout << it->first << "\t" << it->second << endl;
+ /*	if (wc1 < wc2)
 	{
 		wfound == true;
 		for (auto it1 = map1.begin(); it1 != map1.end(); it1++)
@@ -210,9 +232,8 @@ void compare_phrases(Phrase *p1_txt, Phrase *p2_txt)
 			if (wfound == true)
 				cout << "String 2 can be formed from String 1." << endl;
 		}
-	}
+	}*/
 }
-*/
 
 // Usage: <executable> ransom.txt magazine.txt
 int main(int argc, char **argv)
@@ -230,15 +251,15 @@ int main(int argc, char **argv)
 	cout << "Ransom: " << endl;
 	construct_phrase(argv[1], p_ran);
 	//display_phrase(p_ran);
-	display_frequency(p_ran);
+	//display_frequency(p_ran);
 
 	p_mag = static_cast<Phrase *>(malloc(sizeof(Phrase)));
 	cout << "Magazine: " << endl;
 	construct_phrase(argv[2], p_mag);
 	//display_phrase(p_mag);
-	display_frequency(p_mag);
+	//display_frequency(p_mag);
 
-	//compare_phrases(p_ran, p_mag);
+	compare_phrases(p_ran, p_mag);
 
 	return SUCCESS;
 }
