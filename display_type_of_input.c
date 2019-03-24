@@ -30,17 +30,17 @@ int main()
     
 	if(b != 0){
 		if(b == c){
-			printf("This is an integer.\n");
+			printf("This is an integer.");
 		}
 		else{
-			printf("float");
+			printf("This is a float.");
 		}
 	}
 	else if(ctr){
-        printf("This is something else.\n");
+        printf("This is something else.");
     }
     else{
-		printf("This is a string.\n");
+		printf("This is a string.");
 	}
 
     return 0;
