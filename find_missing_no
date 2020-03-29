@@ -1,1 +1,34 @@
-https://ide.geeksforgeeks.org/gLykYCiwms
+#include <stdio.h> 
+#include <stdlib.h>
+
+/* getMissingNo takes array and size of array as arguments*/
+int getMissingNo(int a[], int n) 
+{ 
+	int i, result;
+  	int *b = NULL;
+  
+  	b = (int *)calloc(n, sizeof(int));
+	
+	for (i = 0; i < n; i++) 
+		b[a[i] - 1]++; // calculate occurences of each no. in the range
+  
+  	for (i = 0; i < n; i++)
+    {
+      if (b[i] == 0)
+      {
+        result = i + 1;
+        break;
+      }
+    }
+	return result; 
+} 
+
+/*program to test above function */
+int main() 
+{ 
+	int a[] = { 1, 2, 4, 5, 6 }; 
+	int miss = getMissingNo(a, 5); 
+	printf("%d", miss); 
+	getchar(); 
+} 
+
