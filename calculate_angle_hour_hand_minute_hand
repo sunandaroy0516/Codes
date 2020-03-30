@@ -1,0 +1,38 @@
+// C program to find angle between hour and minute hands 
+#include <stdio.h> 
+#include <stdlib.h>
+
+// Utility function to find minimum of two integers 
+int min(int x, int y) { return (x < y)? x: y; } 
+
+int calcAngle(double h, double m) 
+{ 
+  	int angle, angle_comp;
+	// validate the input 
+	if (h <0 || m < 0 || h >12 || m > 60) 
+		printf("Wrong input"); 
+
+	if (h == 12) h = 0; 
+	if (m == 60) m = 0; 
+
+	// Calculate the angles moved by hour and minute hands 
+	// with reference to 12:00 
+	int hour_angle = (360 / 12) * h + (360 / 12) * (m / 60); 
+	int minute_angle = (360 / 60) * m; 
+
+	// Find the positive difference between two angles 
+	angle = hour_angle > minute_angle ? hour_angle - minute_angle:\
+      minute_angle - hour_angle;
+  
+  angle_comp = 360 - angle;
+
+	return min(angle, angle_comp); 
+} 
+
+// Driver program to test above function 
+int main() 
+{ 
+	printf("%d \n", calcAngle(9, 60)); 
+	printf("%d \n", calcAngle(3, 30)); 
+	return 0; 
+} 
