@@ -24,7 +24,7 @@ int calcAngle(double h, double m)
 	angle = hour_angle > minute_angle ? hour_angle - minute_angle:\
       minute_angle - hour_angle;
   
-  angle_comp = 360 - angle;
+  	angle_comp = 360 - angle;
 
 	return min(angle, angle_comp); 
 } 
