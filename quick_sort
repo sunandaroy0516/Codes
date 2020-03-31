@@ -23,7 +23,6 @@ int partition (int arr[], int low, int high)
   	int i = pivot + 1;
   	while(i <= high)
     {
-      printArray(arr, high - low + 1);
       if(arr[i] < arr[pivot])
       {
         swap(&arr[i], &arr[pivot]);
