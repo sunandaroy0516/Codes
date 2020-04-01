@@ -1,0 +1,78 @@
+// Search an element in sorted and rotated 
+// array using single pass of Binary Search 
+#include <bits/stdc++.h> 
+using namespace std; 
+
+int bs(int arr[], int l, int h, int key)
+{
+  int result;
+  if(l == h && arr[l] == key)
+  {
+    result = l;
+  }
+  else if(l > h)
+  {
+    result = -1;
+  }
+  else
+  {
+    int mid = (l + h) / 2;
+    if(arr[mid] == key)
+    {
+      result = mid;
+    }
+    else if(arr[mid] > key)
+    {
+      result = bs(arr, l, mid - 1, key);
+    }
+    else
+    {
+      result = bs(arr, mid + 1, h, key);
+    }
+  }
+  return result;
+}
+
+// Returns index of key in arr[l..h] if 
+// key is present, otherwise returns -1 
+int search(int arr[], int l, int h, int key) 
+{ 
+  	int i, size, pivot, result;
+  
+  	size = h - l + 1;
+	for(i = 0; i <= size; i++)
+    {
+      if(arr[i] > arr[i + 1])
+      {
+        pivot = i;
+        break;
+      }
+    }
+  	if(arr[pivot] == key)
+    {
+      result = pivot;
+    }
+  	else if(arr[l] < key)
+    {
+      result = bs(arr, 0, pivot - 1, key);
+    }
+  	else
+    {
+      result = bs(arr, pivot + 1, h, key);
+    }
+  	return result;
+} 
+
+// Driver program 
+int main() 
+{ 
+	int arr[] = {4, 5, 6, 7, 8, 9, 1, 2, 3}; 
+	int n = sizeof(arr)/sizeof(arr[0]); 
+	int key = 6; 
+	int i = search(arr, 0, n-1, key); 
+
+	if (i != -1) 
+	cout << "Index: " << i << endl; 
+	else
+	cout << "Key not found"; 
+} 
