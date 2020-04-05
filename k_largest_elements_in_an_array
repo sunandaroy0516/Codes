@@ -1,0 +1,47 @@
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+    int arr[] = {1, 23, 12, 9, 30, 2, 50};
+    int i, j, k = 3;
+    vector<int> a, max;
+    
+    int len_arr = sizeof(arr)/sizeof(int);
+    
+    for(i = 0; i < len_arr; i++)
+    {
+        a.push_back(arr[i]);
+    }
+    
+    for(i = 0; i < k; i++)
+    {
+        max.push_back(0);
+    }
+    
+    for(j = 0; j < k; j++)
+    {
+        for(vector<int>::iterator i = a.begin(); i != a.end(); i++)
+        {
+            if(*i > max[j])
+            {
+                max[j] = *i;
+            }
+        }
+        
+        for(vector<int>::iterator i = a.begin(); i != a.end(); i++)
+        {
+            if (*i == max[j])
+            {
+                a.erase(i);
+                break;
+            }
+        }
+        cout << max[j] << endl;
+    }
+    
+   
+   return 0;
+}
